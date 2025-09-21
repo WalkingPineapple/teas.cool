@@ -5,8 +5,8 @@ pubDate: 2023-08-29
 description: '明天怎么样后天才知道'
 author: 'P1neapple'
 cover:
-    url: 'https://photos.p1neapple.life/%E9%87%91%E6%BB%A9_(1).jpg'
-    square: 'https://photos.p1neapple.life/%E9%87%91%E6%BB%A9_(1).jpg'
+    url: 'https://photos.p1neapple.cc/%E9%87%91%E6%BB%A9_(1).jpg'
+    square: 'https://photos.p1neapple.cc/%E9%87%91%E6%BB%A9_(1).jpg'
     alt: 'cover'
 tags: ["游记"]
 theme: 'light'
@@ -34,13 +34,13 @@ featured: false
 我们选择周五下午从昆明出发，乘坐`D3928` 次列车沿着南昆铁路而行，途径红河州、文山州、百色、南宁、钦州，最后到达北海，耗时6小时。
 由于暑期出行，车厢充斥着儿童的哭闹声，游戏和电影消磨了车上时间和吵闹。气温随着列车奔驰不断升高，大海离我们的越来越近。
 
-![列车](https://photos.p1neapple.life/BeihaiLiuzhou_train.jpg)
+![列车](https://photos.p1neapple.cc/BeihaiLiuzhou_train.jpg)
 
 
 
 晚上九点，我们到达北海市，北海的地面被雨水浸湿，湿润的空气依然盖不住炎热的气温。北海站站房站房的风格充斥着大海气息，远看一块冲浪板，又呈贝壳或波浪形状。
 
-![北海站](https://photos.p1neapple.life/BeihaiLiuzhou_beihaiStation.jpg)
+![北海站](https://photos.p1neapple.cc/BeihaiLiuzhou_beihaiStation.jpg)
 
 
 
@@ -51,19 +51,19 @@ featured: false
 
 阴雨天气，雾蒙蒙天气替代了金色的日出，我们在酒店用餐之后，就出发去北海的著名景点——银滩旅游度假区。
 
-<img src=https://photos.p1neapple.life/BeihaiLiuzhou_grayCloud.jpg width=100% />
+<img src=https://photos.p1neapple.cc/BeihaiLiuzhou_grayCloud.jpg width=100% />
 
 银滩，位于北海市南部海滨，沙滩上的沙是上等的石英砂，在阳光的照射下，洁白、细腻的沙滩会泛出银光，故称银滩。
 堵车标志着我们离景点越来越近，虽然雾蒙蒙的天气，但炎热和酷晒依旧覆盖着每一个角落，还有大风为伴，走近沙滩，偌大的沙滩依然被密密麻麻人盖住。
 
-<img src=https://photos.p1neapple.life/BeihaiLiuzhou_ynt.jpg width=100% />
+<img src=https://photos.p1neapple.cc/BeihaiLiuzhou_ynt.jpg width=100% />
 
 以前没有见过大海，对大海想象只停留在课本、图片、视频传统媒介之上，尽管天气不太理想，但依然被这一望无际的大海，海风轻抚脸庞，不由的举起双手，去拥抱眼前的自由。
-<img src=https://photos.p1neapple.life/BeihaiLiuzhou_ynt1.jpg width=100% />
+<img src=https://photos.p1neapple.cc/BeihaiLiuzhou_ynt1.jpg width=100% />
 
 
 海浪在海风的作用下，时大时小，裤子被迎面的海浪打湿。尽管风浪很大，但丝毫阻挡不了人们对自由的向往，叫喊声为扑向的大海的人增添了几份勇气，大人、小孩被像离水的鱼一样嬉戏。只可惜这天不作美，一颗颗雨滴洒向脸庞，人群开始向周围可以避雨的建筑物攒动，刚把雨伞打开，又被风吹落。我们也也踉踉跄跄的寻找着避雨的地方，途中还围观了的小螃蟹筑巢。
-<img src=https://photos.p1neapple.life/BeihaiLiuzhou_xcpjx.PNG width=100% />
+<img src=https://photos.p1neapple.cc/BeihaiLiuzhou_xcpjx.PNG width=100% />
 
 
 来之前我们预想了会下雨，但没有想到雨下的如此之大，在海浪和大雨的拍打下，我们身穿的衣服全部湿透。大雨一下就是一个多小时，下雨过后我们试图沿着海滩继续前行，前方的沙滩被乌云笼罩着，完全看不到一个游客身影，我们不禁胆怯起来，决定先回酒店更换衣服避免感冒。
@@ -71,7 +71,7 @@ featured: false
 大于、暑期、景区三层buff的叠加下，打车变的尤为困难，网约车没有等到，等来的确是另一场大雨。我们转变思路，通过货拉拉我们才得以回到酒店。
 
 在酒店品歇息片刻之后，我们便去北海金滩海上栈道闲逛。
-<img src=https://photos.p1neapple.life/BeihaiLiuzhou_vd.jpg width=100% />
+<img src=https://photos.p1neapple.cc/BeihaiLiuzhou_vd.jpg width=100% />
 
 在栈道向西北方向看去，乌云，大海，游泳的人交辉相映，栈道上不时会遇到有人钓鱼，一个背包、一个马扎、几根鱼竿，对钓鱼佬的而言，大雨和时间早已被冲刷殆尽。走出栈道就抵达了金滩。
 
@@ -79,13 +79,13 @@ featured: false
 
 沿着金滩边漫步，尽管海水的拍大，但鞋子和脚缝隙中仍然有很多泥沙，没有看到日落，但是X色天空下，依然很美。
 
-![金滩](https://photos.p1neapple.life/%E9%87%91%E6%BB%A9_(1).jpg)
+![金滩](https://photos.p1neapple.cc/%E9%87%91%E6%BB%A9_(1).jpg)
 
 无法忍受脚上泥沙和碎石，在经历坎坷之后，我们决定去品尝来到北海的第一顿正餐——海鲜。
 
 我们俩人一共点了三个菜和一个主食，一共消费200+
 
-![海鲜](https://photos.p1neapple.life/BeihaiLiuzhou_diner.jpg)
+![海鲜](https://photos.p1neapple.cc/BeihaiLiuzhou_diner.jpg)
 
 
 海鲜的烹饪无非就焗、蒸、炒，主要吃的就是的一个鲜、嫩。以前吃过螃蟹次数很少，但觉得这次吃的蟹肉很丰富，店家已经将不能吃的部分全部去除，白灼海虾配合大蒜、酱油、红椒吃起来很鲜，有一股海鲜的甜味，指甲贝在红椒的加持下更香了。
@@ -99,7 +99,7 @@ featured: false
 侨港风情街，北海著名一条美食街，由于越南与广西相邻，有很多越南华侨居住于此。
 很想说这条街道充斥着越南风情，但不能说，原因有二，一是笔者没有去过越南，没体会过真正的越南风情，二是笔者觉得在如今物欲横流社会下，互联网飞速发展，历史终究是历史，最后都会被大红大紫、大红大绿、霓虹灯等国潮风替代。由于笔者未及时拍照，从网上找到一张图片，这种风格如今哪座城市还没有？
 
-![金滩](https://photos.p1neapple.life/gc.png)
+![金滩](https://photos.p1neapple.cc/gc.png)
 
 
 说回美食，王老师可把功课做足了。
@@ -109,14 +109,14 @@ featured: false
 - 椰椰大吉
 - 虾饼
 
-<img src=https://photos.p1neapple.life/BeihaiLiuzhou_qcg.JPG width=100% />
+<img src=https://photos.p1neapple.cc/BeihaiLiuzhou_qcg.JPG width=100% />
 
 
-![好运烧](https://photos.p1neapple.life/zys.JPG)
+![好运烧](https://photos.p1neapple.cc/zys.JPG)
 
 巨大风浪今天算是将大海困住了，我们打车前往海滩公园，海滩公园也属于银滩的一部分，今天去的就是我们之前被大雨止步的部分，进入公园，一个巨型雕塑竖立在眼前，雕塑呈球体，四周被七位少女围住，这时王老师问其雕塑上面几个少女是谁？我也不知道是谁。
 
-![潮](https://photos.p1neapple.life/BeihaiLiuzhou_ik.jpg)
+![潮](https://photos.p1neapple.cc/BeihaiLiuzhou_ik.jpg)
 
 回来之后，借助网络查阅，对雕塑的描述如下：
 
@@ -140,15 +140,15 @@ featured: false
 柳州，广西的第二大城市，柳江将城市环绕住。柳州除棺木、石头出名外，我们的第一印象就是螺蛳粉。
 
 我们乘坐动车从北海到南宁东中转至柳州，到柳州站已是下午。从柳州站出发至酒店有六七公里远，沿着蟠龙山公园对面的文昌路直走就抵达我们住的酒店。途中网约车师傅打听了许多吃喝玩乐的地方，心中甚是希望全部都打卡一遍。酒店相对市中心要安静一些，从酒店窗户向北看去就是柳州马鹿山奇石博览园，一座座小山被橙色的晚霞包裹起来。
-<img src=https://photos.p1neapple.life/BeihaiLiuzhou_wd width=100% />
+<img src=https://photos.p1neapple.cc/BeihaiLiuzhou_wd width=100% />
 
 在酒店吃了一点下午茶之后，我们便打车去了胜利烧烤城。在来之前并没有对柳州做太多攻略，因为王老师说这是她的第二个故乡，一听这话，我就放心了。
 
 胜利烧烤城位于柳州市的柳北区，这是一个夜宵小吃的聚集地，还没有到烧烤城，车速就已经慢了下来，依然是大红大紫的配色、霓虹灯的装饰，走进烧烤城，不用特地去做攻略哪一家好吃，因为好吃的都已经排起了长龙。
 
-![四季豆浆](https://photos.p1neapple.life/BeihaiLiuzhou_dbjyt.JPG)
+![四季豆浆](https://photos.p1neapple.cc/BeihaiLiuzhou_dbjyt.JPG)
 
-![砂锅螺丝](https://photos.p1neapple.life/BeihaiLiuzhou_uag.JPG)
+![砂锅螺丝](https://photos.p1neapple.cc/BeihaiLiuzhou_uag.JPG)
 
 
 在吃过上面的美食之后，我们又绕着胜利烧烤城走了一圈，我们发现无论身在何处，这几年刮刮乐有火了起来。
@@ -164,7 +164,7 @@ featured: false
 
 我们早上在酒店用过早餐之后就出发去青云菜市场，这里有必要介绍一下酒店的螺蛳粉，王老师实测很不错。
 
-<img src=https://photos.p1neapple.life/BeihaiLiuzhou_jdlsf.JPG width=100% />
+<img src=https://photos.p1neapple.cc/BeihaiLiuzhou_jdlsf.JPG width=100% />
 
 
 从酒店打车至青云菜市场大约20分钟，跟随人群进入菜市场，青云菜市场与大部分菜市场有所不同，它分布在各种房屋建筑与房屋建筑的的路间，有的有自己铺面，有的推车或者支一个摊位，青云菜市场可以分上下两区（笔者自己分的），上半区主要就是各种媒体上推荐的美食打卡区，下半区就是瓜果蔬菜、肉禽的销售区。
@@ -184,39 +184,39 @@ featured: false
 
 从公园大门进入分为左右两条路，我们沿着右边道路沿路而行，最先映入眼帘的就是镜湖和雷潭、祭台。我们从祭台进去过，但是人烟稀少，又折返至主路，我们一直沿着路走向风雨桥，在这打卡拍照的人很多，基本一两米一个机位。
 
-![龙潭公园](https://photos.p1neapple.life/BeihaiLiuzhou_lst.jpg)
+![龙潭公园](https://photos.p1neapple.cc/BeihaiLiuzhou_lst.jpg)
 
 龙潭公园里面少数名字寨子有很多，比如侗寨鼓楼，但是我们去的时候好像都没开门，大门紧闭。原本计划去爬镜山，但是我们路牌犹豫半天，没有找到确定前往镜山的路就沿路而反。
 
-![水上公交](https://photos.p1neapple.life/BeihaiLiuzhou_bus.jpg)
+![水上公交](https://photos.p1neapple.cc/BeihaiLiuzhou_bus.jpg)
 龙潭公园出来我们直奔的水上公交的乘车点——东堤码头，但是因为排队的人多没有赶上最后一班。
 虽然没有赶上水上公交，但我们可以去吃东西、喝东西，我和王老师去买了阿嬷手作，吃了螺蛳粉，对了，中途还有一段小插曲我想写下来，王老师找了几家螺蛳粉，在去的路上，我感觉路线不对，问王老师 我们走对了吗？王老师拿着手机地图义正言辞的说：没错，就是这样。显然，我们又原路而反，但是恰恰而反，我们买到了味道不错的凉茶。
 
 在看完列车经过后，我们决定去嗦粉。我和王老师一人一份螺蛳粉，一份煮一份炒，但炒螺蛳粉对我这样饭量有点粗糙的人来说，量有点少。
 
 
-![螺蛳粉](https://photos.p1neapple.life/BeihaiLiuzhou_vulsf.JPG)
+![螺蛳粉](https://photos.p1neapple.cc/BeihaiLiuzhou_vulsf.JPG)
 
-![螺蛳粉](https://photos.p1neapple.life/BeihaiLiuzhou_iklsf.JPG)
+![螺蛳粉](https://photos.p1neapple.cc/BeihaiLiuzhou_iklsf.JPG)
 
 嗦完粉，我们阿嬷手作也做好了，在取的路还把北海落下东西的故事又重演了一遍。
 
-![阿嬷手作](https://photos.p1neapple.life/BeihaiLiuzhou_aamsz.JPG)
+![阿嬷手作](https://photos.p1neapple.cc/BeihaiLiuzhou_aamsz.JPG)
 
 回到酒店，王老师估计是看出我没吃饱（炒螺蛳粉 粉真少），又给我点了一份粉。
 
-![螺蛳粉](https://photos.p1neapple.life/BeihaiLiuzhou_lulsf.JPG)
+![螺蛳粉](https://photos.p1neapple.cc/BeihaiLiuzhou_lulsf.JPG)
 
 
 ### Day 05 返程
 
 我们一早起来收拾东西，然后在酒店匆忙的吃过早餐之后就踏上了返程的路，由于我没有买到票，从南宁之后，我以背包为椅，直到昆明。
 
-![席地而坐](https://photos.p1neapple.life/backpack.jpg)
+![席地而坐](https://photos.p1neapple.cc/backpack.jpg)
 
 有些真的很喜欢这种席地而坐的自由。
 
-![王老师](https://photos.p1neapple.life/MsW.jpeg)
+![王老师](https://photos.p1neapple.cc/MsW.jpeg)
 
 
 最后上一张王老师背影。

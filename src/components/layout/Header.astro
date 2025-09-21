@@ -1,0 +1,95 @@
+---
+import ThemeToggle from '../ui/ThemeToggle.astro';
+---
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">
+        <a href="/" class="logo-link">
+          <h1 class="site-title">直接开摆</h1>
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="nav-link">首页</a></li>
+          <li><a href="/archive" class="nav-link">归档</a></li>
+          <li><a href="/about" class="nav-link">关于</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <ThemeToggle />
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) 0;
+  }
+
+  .logo-link {
+    text-decoration: none;
+  }
+
+  .site-title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0;
+    font-family: var(--font-family-serif);
+  }
+
+  .nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--space-6);
+  }
+
+  .nav-link {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-family: var(--font-family-sans);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-primary);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .nav-list {
+      gap: var(--space-4);
+    }
+
+    .site-title {
+      font-size: var(--text-lg);
+    }
+  }
+</style>

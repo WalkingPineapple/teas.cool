@@ -2,58 +2,329 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout primaryTitle="关于">
-  <section class="archive">
-    <div class="section-content section-tag">
-      <div class="archive-tag">
-        <h2 class="tag-header">关于我</h2>
-        <div class="tag-post-list">
-
-          <ul>
-            <li>一个喜欢吹牛的普通人</li>
-            <li>ENFP人格</li>
-            <li>爱自由</li>
-            <li>爱折腾</li>
-            <li>没啥爱好 你喜欢的我都可以喜欢都可以学</li>
-            <li>反正都是半瓶醋</li>
-          </ul>
+<BaseLayout title="关于">
+  <div class="about-page">
+    <div class="container">
+      <!-- 个人介绍 -->
+      <section class="hero-section">
+        <div class="hero-content">
+          <div class="avatar">
+            <div class="avatar-placeholder">🍃</div>
+          </div>
+          <h1 class="hero-title">直接开摆</h1>
+          <p class="hero-subtitle">闲来拈花随风笑，煮茶不问世间嚣</p>
         </div>
-      </div>
+      </section>
 
-      <div class="archive-tag">
-        <h2 class="tag-header">与我取得联系</h2>
-        <div class="tag-post-list">
-          <ul>
-
-            <li>
-            <a href="https://t.me/oooooooorange" target="_blank">Telegram</a>
-            </li>
-          </ul>
+      <!-- 关于我 -->
+      <section class="content-section">
+        <div class="section-card">
+          <h2 class="section-title">关于我</h2>
+          <div class="content">
+            <ul class="about-list">
+              <li>ENFP</li>
+              <li>爱聊天、爱吐槽、话多</li>
+              <li>大概还算善良的好人，目前为止没有应该还没有变成坏人</li>
+              <li>某传统行业赛博打灰</li>
+              <li>好奇心非常强</li>
+            </ul>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div class="archive-tag">
-        <h2 class="tag-header">随想</h2>
-        <div class="tag-post-list">
-          <ul>
-            <li>我常常将人看做机器，他输出了什么，常常取决于他输入了什么。</li>
-            <li>屏蔽垃圾输入，寻求优质信息源， 才能输出优质信息。</li>
-            <li>看到这，你已经被我的观念输入一遍了。</li>
-          </ul>
+      <!-- 联系方式 -->
+      <section class="content-section">
+        <div class="section-card">
+          <h2 class="section-title">与我取得联系</h2>
+          <div class="content">
+            <div class="contact-links">
+              <a href="https://t.me/oooooooorange" target="_blank" class="contact-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12c0 6.627-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0s12 5.373 12 12zM12.43 8.859c-1.167.485-3.5 1.49-6.998 3.014-1.297.565-1.972.886-2.025 1.178-.088.479.559.67.997.795.179.05.372.104.583.166.433.202 1.188.447 1.582.456.358.008.76-.137 1.204-.435 3.22-2.467 4.896-3.726 5.026-3.726.092 0 .219.043.29.187.073.149.067.394.061.447-.053.55-.598 2.221-1.134 3.122-.174.292-.29.488-.323.524-.07.077-.15.15-.226.22-.561.511-1.07.969.024 1.607.547.319 1.05.6 1.552.879.527.294 1.062.590 1.725.983.226.134.438.271.635.401.618.408 1.164.771 1.852.708.302-.027.62-.269.792-1.074.36-1.687 1.052-6.047 1.254-7.671.024-.191.055-.396.055-.573 0-.126-.01-.283-.06-.394-.146-.32-.458-.417-.702-.417-.545 0-1.419.244-4.898 1.681z"/>
+                </svg>
+                Telegram
+              </a>
+              <a href="mailto:inclu@sohu.com" class="contact-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                邮箱
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div class="archive-tag">
-        <h2 class="tag-header">胡说八道</h2>
-        <div class="tag-post-list">
-          <ul>
-            <li>
-             找个地方,然后躲起来
-            </li>
-          </ul>
+      <!-- 随想 -->
+      <section class="content-section">
+        <div class="section-card">
+          <h2 class="section-title">随想</h2>
+          <div class="content">
+            <div class="thoughts">
+              <blockquote>我常常将人看做机器，他输出了什么，常常取决于他输入了什么。</blockquote>
+              <blockquote>屏蔽垃圾输入，寻求优质信息源，才能输出优质信息。</blockquote>
+              <blockquote>看到这，你已经被我的观念输入一遍了。</blockquote>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
+      <!-- 胡说八道 -->
+      <section class="content-section">
+        <div class="section-card">
+          <h2 class="section-title">胡说八道</h2>
+          <div class="content">
+            <p class="quote-text">再缜密的计划有时也会失败，你想要做什么事并不意味着你能够做到，生活一团乱麻，成功完全随缘，自信才是最重要的。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 博客统计 -->
+      <section class="content-section">
+        <div class="section-card">
+          <h2 class="section-title">相关信息</h2>
+          <div class="content">
+            <div class="blog-info">
+              <p>基于 <a href="https://astro.build" target="_blank" rel="noopener">Astro</a> 构建。</p>
+              <p>记录生活的点点滴滴，分享思考的片片段段。不追求完美，只求真实；不在意频率，只在意质量。</p>
+              <div class="blog-features">
+                <span class="feature">🎨 现代设计</span>
+                <span class="feature">🌓 暗色模式</span>
+                <span class="feature">🔍 全文搜索</span>
+                <span class="feature">📱 响应式设计</span>
+                <span class="feature">⚡ 静态生成</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
 </BaseLayout>
+
+<style>
+  .about-page {
+    min-height: calc(100vh - 200px);
+  }
+
+  /* Hero Section */
+  .hero-section {
+    text-align: center;
+    padding: var(--space-16) 0 var(--space-12) 0;
+    background: linear-gradient(135deg,
+      color-mix(in srgb, var(--color-primary) 5%, var(--color-bg)) 0%,
+      var(--color-bg) 100%);
+  }
+
+  .hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .avatar {
+    margin-bottom: var(--space-6);
+  }
+
+  .avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-4xl);
+    margin: 0 auto;
+    box-shadow: 0 8px 32px color-mix(in srgb, var(--color-primary) 30%, transparent);
+  }
+
+  .hero-title {
+    font-size: var(--text-4xl);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-4) 0;
+    font-family: var(--font-family-serif);
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* Content Sections */
+  .content-section {
+    margin-bottom: var(--space-8);
+  }
+
+  .section-card {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-8);
+    box-shadow: 0 2px 16px var(--color-shadow);
+    transition: transform var(--transition-fast);
+  }
+
+  .section-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .section-title {
+    font-size: var(--text-2xl);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-6) 0;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-3);
+  }
+
+  /* About List */
+  .about-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .about-list li {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    position: relative;
+    padding-left: var(--space-6);
+  }
+
+  .about-list li:last-child {
+    border-bottom: none;
+  }
+
+  .about-list li::before {
+    content: "•";
+    color: var(--color-accent);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    font-size: var(--text-lg);
+  }
+
+  /* Contact Links */
+  .contact-links {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+  }
+
+  .contact-link:hover {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Thoughts */
+  .thoughts {
+    space-y: var(--space-4);
+  }
+
+  .thoughts blockquote {
+    border-left: 4px solid var(--color-accent);
+    padding-left: var(--space-6);
+    margin: var(--space-4) 0;
+    font-style: italic;
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: 1.7;
+  }
+
+  /* Quote Text */
+  .quote-text {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    text-align: center;
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* Blog Info */
+  .blog-info {
+    space-y: var(--space-4);
+  }
+
+  .blog-info p {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  .blog-info a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .blog-info a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .blog-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .feature {
+    background-color: var(--color-bg);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--border-radius);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: var(--text-3xl);
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-lg);
+    }
+
+    .avatar-placeholder {
+      width: 100px;
+      height: 100px;
+      font-size: var(--text-3xl);
+    }
+
+    .section-card {
+      padding: var(--space-6);
+    }
+
+    .section-title {
+      font-size: var(--text-xl);
+    }
+
+    .contact-links {
+      justify-content: center;
+    }
+
+    .blog-features {
+      justify-content: center;
+    }
+  }
+</style>

@@ -1,79 +1,207 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Tile from "../layouts/Tile.astro";
-import MoreTile from "../layouts/MoreTile.astro";
+import PostCard from "../components/blog/PostCard.astro";
+import Button from "../components/ui/Button.astro";
+
+// 获取所有博客文章
 const allPosts = await Astro.glob("../pages/posts/*.md");
 allPosts.sort((a, b) => Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate));
+
+// 获取最新的几篇文章
+const recentPosts = allPosts.slice(0, 6);
 ---
 
 <BaseLayout>
-  <section class="everydayfeed">
-    <div class="section-content">
-      <h2 class="section-head">最新文章</h2>
-      <ul role="list" class="section-tiles">
-        {
-          // tile-hero
-          allPosts.slice(0, 1).map((post) => {
-            return (
-              <Tile title={post.frontmatter.title} href={post.url} date={post.frontmatter.pubDate} tags={post.frontmatter.tags} cover={post.frontmatter.cover.url} level="1" />
-            );
-          })
-        }
-
-        {
-          // tile-2up
-          allPosts.slice(1, 5).map((post) => {
-            return (
-              <Tile title={post.frontmatter.title} href={post.url} date={post.frontmatter.pubDate} tags={post.frontmatter.tags} cover={post.frontmatter.cover.url} level="2" />
-            );
-          })
-        }
-
-        {
-          // tile-3up
-          allPosts.slice(5, 11).map((post) => {
-            return (
-              <Tile title={post.frontmatter.title} href={post.url} date={post.frontmatter.pubDate} tags={post.frontmatter.tags} cover={post.frontmatter.cover.url} level="3" />
-            );
-          })
-        }
-      </ul>
-    </div>
-  </section>
-
-  <section class="more-from-newsroom">
-    <div class="section-content">
-      <h2 class="section-head">更多文章</h2>
-   
-
-      <ul role="list" class="section-tiles">
-
-        {
-          // tile-2up
-          allPosts.slice(0, 6).map((post) => {
-            return (
-              <MoreTile title={post.frontmatter.title} href={post.url} date={post.frontmatter.pubDate} tags={post.frontmatter.tags} cover={post.frontmatter.cover.url} />
-            );
-          })
-        }
-      </ul>
-      <div class="view-archive-wrapper">
-        <a href="/archive" class="cta-primary-light" data-analytics-region="router" data-analytics-title="view archive">阅读历史文章</a>
+  <!-- Hero 区域 -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">直接开摆</h1>
+        <p class="hero-subtitle">闲来拈花随风笑，煮茶不问世间嚣</p>
+        <div class="hero-stats">
+          <span class="stat">
+            <strong>{allPosts.length}</strong> 篇文章
+          </span>
+          <span class="stat">
+            持续更新中...
+          </span>
+        </div>
       </div>
     </div>
   </section>
 
-  <script is:inline>
-    document.addEventListener("DOMContentLoaded", function () {
-      var script = document.createElement("script");
-      script.src = "/static/js/animation.js";
-      document.head.appendChild(script);
+  <!-- 最新文章 -->
+  <section class="posts-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">最新文章</h2>
+        <p class="section-description">分享生活感悟与技术思考</p>
+      </div>
 
-      script.onload = function () {
-        console.log("lazyload.js loaded");
-        // when layout is loaded, load the images
-        initImage();
-      };
-    });
-  </script>
+      <div class="posts-grid">
+        {recentPosts.map((post) => (
+          <PostCard
+            title={post.frontmatter.title}
+            href={post.url}
+            description={post.frontmatter.description || post.compiledContent().slice(0, 150) + '...'}
+            date={post.frontmatter.pubDate}
+            tags={post.frontmatter.tags || []}
+            content={post.compiledContent()}
+          />
+        ))}
+      </div>
+
+      <div class="section-footer">
+        <Button href="/archive" variant="secondary" size="lg">
+          查看全部文章
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关于区域 -->
+  <section class="about-section">
+    <div class="container">
+      <div class="about-content">
+        <h2 class="about-title">关于博客</h2>
+        <p class="about-text">
+          记录生活的点点滴滴，分享思考的片片段段。
+          不追求完美，只求真实；不在意频率，只在意质量。
+        </p>
+        <Button href="/about" variant="primary">
+          了解更多
+        </Button>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  /* Hero Section */
+  .hero-section {
+    padding: var(--space-16) 0 var(--space-12) 0;
+    background: linear-gradient(135deg,
+      color-mix(in srgb, var(--color-primary) 5%, var(--color-bg)) 0%,
+      var(--color-bg) 100%);
+    text-align: center;
+  }
+
+  .hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 0 0 var(--space-4) 0;
+    font-family: var(--font-family-serif);
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-8) 0;
+    line-height: 1.6;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-8);
+    font-family: var(--font-family-sans);
+  }
+
+  .stat {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .stat strong {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  /* Posts Section */
+  .posts-section {
+    padding: var(--section-spacing) 0;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .section-title {
+    font-size: var(--text-3xl);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  .section-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
+  }
+
+  .section-footer {
+    text-align: center;
+  }
+
+  /* About Section */
+  .about-section {
+    padding: var(--section-spacing) 0;
+    background-color: var(--color-surface);
+  }
+
+  .about-content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .about-title {
+    font-size: var(--text-2xl);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-6) 0;
+  }
+
+  .about-text {
+    font-size: var(--text-lg);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-8) 0;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: var(--text-3xl);
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-lg);
+    }
+
+    .hero-stats {
+      gap: var(--space-4);
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .section-title {
+      font-size: var(--text-2xl);
+    }
+  }
+</style>

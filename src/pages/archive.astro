@@ -1,29 +1,216 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ArchivePostList from "../layouts/ArchivePostList.astro";
-const allPosts = await Astro.glob("./posts/*.md");
-const tags = ["花里胡哨", "MITM", "源码研究","Packet Capture","游记"];
-const posts = [];
+import PostCard from "../components/blog/PostCard.astro";
+import SearchBox from "../components/blog/SearchBox.astro";
+import TagCloud from "../components/blog/TagCloud.astro";
 
-tags.forEach((tag) => {
-  let filteredPosts = allPosts.filter((post) => post.frontmatter.tags.includes(tag));
-  posts.push(filteredPosts);
-});
+// 获取所有文章
+const allPosts = await Astro.glob("./posts/*.md");
+allPosts.sort((a, b) => new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate));
+
+// 提取所有标签
+const allTags = [...new Set(allPosts.flatMap(post => post.frontmatter.tags || []))];
+
+// 按年份分组
+const postsByYear = allPosts.reduce((acc, post) => {
+  const year = new Date(post.frontmatter.pubDate).getFullYear();
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const years = Object.keys(postsByYear).sort((a, b) => b - a);
 ---
 
-<BaseLayout primaryTitle="归档">
-  <section class="archive">
-    <div class="section-content section-tag">
-      {
-        tags.map((tag, index) => {
-          return (
-            <div class="archive-tag">
-              <h2 class="tag-header">{tag}</h2>
-              <div class="tag-post-list">{posts[index].length !== 0 ? <ArchivePostList posts={posts[index]} /> : <div class="no-posts">暂无文章</div>}</div>
+<BaseLayout title="归档">
+  <div class="archive-page">
+    <div class="container">
+      <!-- 页面头部 -->
+      <header class="archive-header">
+        <h1 class="archive-title">文章归档</h1>
+        <p class="archive-subtitle">
+          共 {allPosts.length} 篇文章，{allTags.length} 个标签
+        </p>
+      </header>
+
+      <!-- 搜索功能 -->
+      <div class="search-section">
+        <SearchBox placeholder="搜索文章标题、内容或标签..." />
+      </div>
+
+      <!-- 标签云 -->
+      <div class="tags-section">
+        <TagCloud tags={allTags} />
+      </div>
+
+      <!-- 文章列表 -->
+      <div class="posts-section">
+        {years.map(year => (
+          <div class="year-group">
+            <h2 class="year-header">{year}</h2>
+            <div class="posts-grid">
+              {postsByYear[year].map(post => (
+                <PostCard
+                  title={post.frontmatter.title}
+                  href={post.url}
+                  description={post.frontmatter.description || post.compiledContent().slice(0, 150) + '...'}
+                  date={post.frontmatter.pubDate}
+                  tags={post.frontmatter.tags || []}
+                  content={post.compiledContent()}
+                />
+              ))}
             </div>
-          );
-        })
-      }
+          </div>
+        ))}
+      </div>
+
+      <!-- 统计信息 -->
+      <div class="archive-stats">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <strong class="stat-number">{allPosts.length}</strong>
+            <span class="stat-label">篇文章</span>
+          </div>
+          <div class="stat-item">
+            <strong class="stat-number">{allTags.length}</strong>
+            <span class="stat-label">个标签</span>
+          </div>
+          <div class="stat-item">
+            <strong class="stat-number">{years.length}</strong>
+            <span class="stat-label">年</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
 </BaseLayout>
+
+<style>
+  .archive-page {
+    min-height: calc(100vh - 200px);
+  }
+
+  /* 页面头部 */
+  .archive-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .archive-title {
+    font-size: var(--text-4xl);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-4) 0;
+  }
+
+  .archive-subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    margin: 0;
+    font-family: var(--font-family-mono);
+  }
+
+  /* 搜索区域 */
+  .search-section {
+    margin-bottom: var(--space-12);
+    display: flex;
+    justify-content: center;
+  }
+
+  /* 标签区域 */
+  .tags-section {
+    margin-bottom: var(--space-12);
+    padding: var(--space-8);
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius-lg);
+  }
+
+  /* 文章列表 */
+  .posts-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .year-group {
+    margin-bottom: var(--space-16);
+  }
+
+  .year-header {
+    font-size: var(--text-2xl);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-6) 0;
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-border);
+    font-family: var(--font-family-mono);
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-6);
+  }
+
+  /* 统计信息 */
+  .archive-stats {
+    padding: var(--space-8);
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--space-8);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    text-align: center;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .stat-number {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--color-accent);
+    font-family: var(--font-family-mono);
+  }
+
+  .stat-label {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+    font-family: var(--font-family-sans);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .archive-title {
+      font-size: var(--text-3xl);
+    }
+
+    .archive-subtitle {
+      font-size: var(--text-base);
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .tags-section,
+    .archive-stats {
+      padding: var(--space-6);
+    }
+
+    .search-section {
+      margin-bottom: var(--space-8);
+      padding: 0 var(--space-4);
+    }
+  }
+</style>

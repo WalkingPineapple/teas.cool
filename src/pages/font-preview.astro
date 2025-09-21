@@ -1,0 +1,224 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="字体预览">
+  <div class="font-preview">
+    <div class="container">
+      <header class="preview-header">
+        <h1>字体预览</h1>
+        <p>测试不同字体在博客中的显示效果</p>
+      </header>
+
+      <!-- 露霞文楷 -->
+      <section class="font-section">
+        <h2 class="font-title">露霞文楷（LXGW WenKai）- 当前使用</h2>
+        <div class="font-sample lxgw-wenkai">
+          <h3>标题展示</h3>
+          <p class="large-text">闲来拈花随风笑，煮茶不问世间嚣</p>
+          <p>这是一段正文内容。露霞文楷是基于霞鹜文楷的开源中文字体，具有现代而温润的笔触，非常适合阅读。Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>中英文混排测试：Technology 技术、Design 设计、Development 开发。数字测试：1234567890</p>
+          <code class="code-sample">console.log('Hello World!');</code>
+        </div>
+      </section>
+
+      <!-- 思源宋体对比 -->
+      <section class="font-section">
+        <h2 class="font-title">思源宋体（Noto Serif SC）</h2>
+        <div class="font-sample noto-serif">
+          <h3>标题展示</h3>
+          <p class="large-text">闲来拈花随风笑，煮茶不问世间嚣</p>
+          <p>这是一段正文内容。思源宋体是Google开发的开源字体，传统而优雅，适合长文本阅读。Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>中英文混排测试：Technology 技术、Design 设计、Development 开发。数字测试：1234567890</p>
+          <code class="code-sample">console.log('Hello World!');</code>
+        </div>
+      </section>
+
+      <!-- Inter字体 -->
+      <section class="font-section">
+        <h2 class="font-title">Inter - 英文/UI字体</h2>
+        <div class="font-sample inter-font">
+          <h3>标题展示</h3>
+          <p class="large-text">闲来拈花随风笑，煮茶不问世间嚣</p>
+          <p>这是一段正文内容。Inter是专为界面设计的现代字体，在各种尺寸下都有良好的可读性。Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>中英文混排测试：Technology 技术、Design 设计、Development 开发。数字测试：1234567890</p>
+          <code class="code-sample">console.log('Hello World!');</code>
+        </div>
+      </section>
+
+      <!-- 字体特性对比 -->
+      <section class="comparison-section">
+        <h2>字体特性对比</h2>
+        <div class="comparison-grid">
+          <div class="comparison-item">
+            <h4>露霞文楷</h4>
+            <ul>
+              <li>✅ 现代手写风格</li>
+              <li>✅ 温润亲和</li>
+              <li>✅ 中文优化</li>
+              <li>✅ 开源免费</li>
+              <li>⚠️ 文件较大</li>
+            </ul>
+          </div>
+          <div class="comparison-item">
+            <h4>思源宋体</h4>
+            <ul>
+              <li>✅ 传统优雅</li>
+              <li>✅ 阅读性强</li>
+              <li>✅ Google支持</li>
+              <li>✅ 多语言</li>
+              <li>⚠️ 风格传统</li>
+            </ul>
+          </div>
+          <div class="comparison-item">
+            <h4>Inter</h4>
+            <ul>
+              <li>✅ UI专用</li>
+              <li>✅ 现代简洁</li>
+              <li>✅ 英文优秀</li>
+              <li>✅ 小尺寸清晰</li>
+              <li>❌ 中文支持差</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="recommendation">
+        <h3>推荐设置</h3>
+        <p>基于博客的"煮茶"主题和温润风格，推荐使用 <strong>露霞文楷</strong> 作为主字体，配合 Inter 作为UI元素字体。</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .font-preview {
+    padding: var(--space-8) 0;
+  }
+
+  .preview-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .preview-header h1 {
+    color: var(--color-primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .font-section {
+    margin-bottom: var(--space-12);
+    background-color: var(--color-surface);
+    padding: var(--space-8);
+    border-radius: var(--border-radius-lg);
+  }
+
+  .font-title {
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .font-sample {
+    line-height: 1.7;
+  }
+
+  .large-text {
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    color: var(--color-primary);
+    margin-bottom: var(--space-6);
+  }
+
+  .code-sample {
+    display: block;
+    background-color: var(--color-bg);
+    padding: var(--space-3);
+    border-radius: var(--border-radius);
+    margin-top: var(--space-4);
+    font-family: var(--font-family-mono);
+    font-size: var(--text-sm);
+  }
+
+  /* 字体样式 */
+  .lxgw-wenkai {
+    font-family: "LXGW WenKai", serif;
+  }
+
+  .noto-serif {
+    font-family: "Noto Serif SC", serif;
+  }
+
+  .inter-font {
+    font-family: "Inter", sans-serif;
+  }
+
+  /* 对比区域 */
+  .comparison-section {
+    background-color: var(--color-surface);
+    padding: var(--space-8);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--space-8);
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  .comparison-item {
+    background-color: var(--color-bg);
+    padding: var(--space-6);
+    border-radius: var(--border-radius);
+  }
+
+  .comparison-item h4 {
+    color: var(--color-primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .comparison-item ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .comparison-item li {
+    padding: var(--space-1) 0;
+    font-size: var(--text-sm);
+  }
+
+  /* 推荐区域 */
+  .recommendation {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: white;
+    padding: var(--space-8);
+    border-radius: var(--border-radius-lg);
+    text-align: center;
+  }
+
+  .recommendation h3 {
+    color: white;
+    margin-bottom: var(--space-4);
+  }
+
+  .recommendation p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--text-lg);
+    margin: 0;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .font-section, .comparison-section, .recommendation {
+      padding: var(--space-6);
+    }
+
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

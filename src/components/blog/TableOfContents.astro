@@ -1,0 +1,353 @@
+---
+// 文章目录组件
+---
+
+<aside class="table-of-contents" id="toc">
+  <div class="toc-header">
+    <h4 class="toc-title">文章目录</h4>
+    <button class="toc-toggle" id="toc-toggle" aria-label="切换目录显示">
+      <svg class="toc-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6,9 12,15 18,9"></polyline>
+      </svg>
+    </button>
+  </div>
+  <nav class="toc-nav" id="toc-nav">
+    <ul class="toc-list" id="toc-list">
+      <!-- 目录项将由JavaScript动态生成 -->
+    </ul>
+  </nav>
+</aside>
+
+<style>
+  .table-of-contents {
+    position: sticky;
+    top: calc(var(--space-16) + 60px);
+    float: right;
+    width: 250px;
+    margin: 0 0 var(--space-8) var(--space-8);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 16px var(--color-shadow);
+    z-index: 10;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+
+  .toc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  }
+
+  .toc-title {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+    font-family: var(--font-family-ui);
+  }
+
+  .toc-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-1);
+    border-radius: calc(var(--border-radius) * 0.5);
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+  }
+
+  .toc-toggle:hover {
+    background-color: var(--color-border);
+    color: var(--color-text-primary);
+  }
+
+  .toc-icon {
+    transition: transform var(--transition-fast);
+  }
+
+  .toc-nav {
+    max-height: 400px;
+    overflow-y: auto;
+    transition: all var(--transition-normal);
+  }
+
+  .toc-nav.collapsed {
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  .toc-nav.collapsed + .toc-toggle .toc-icon {
+    transform: rotate(-90deg);
+  }
+
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: var(--space-2) 0;
+  }
+
+  .toc-item {
+    margin: 0;
+    position: relative;
+  }
+
+  .toc-link {
+    display: block;
+    padding: var(--space-3) var(--space-6) var(--space-3) var(--space-8);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    font-family: var(--font-family-ui);
+    border-left: 3px solid transparent;
+    transition: all var(--transition-fast);
+    margin-bottom: var(--space-1);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  }
+
+  .toc-link:hover {
+    background-color: color-mix(in srgb, var(--color-primary) 5%, var(--color-bg));
+    color: var(--color-text-primary);
+    border-left-color: var(--color-primary);
+    transform: translateX(2px);
+  }
+
+  .toc-link.active {
+    background-color: color-mix(in srgb, var(--color-primary) 12%, var(--color-bg));
+    color: var(--color-primary);
+    border-left-color: var(--color-primary);
+    font-weight: 600;
+    transform: translateX(3px);
+  }
+
+  /* 嵌套标题的样式 - 改进层次结构 */
+  .toc-item.level-2 .toc-link {
+    padding-left: var(--space-8);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .toc-item.level-3 .toc-link {
+    padding-left: var(--space-12);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+
+  .toc-item.level-4 .toc-link {
+    padding-left: var(--space-16);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+
+  /* 层级指示线 */
+  .toc-item.level-3::before {
+    content: '';
+    position: absolute;
+    left: var(--space-10);
+    top: 50%;
+    width: 8px;
+    height: 1px;
+    background-color: var(--color-border);
+    transform: translateY(-50%);
+  }
+
+  .toc-item.level-4::before {
+    content: '';
+    position: absolute;
+    left: var(--space-12);
+    top: 50%;
+    width: 8px;
+    height: 1px;
+    background-color: var(--color-border);
+    transform: translateY(-50%);
+  }
+
+  /* 移动端适配 */
+  @media (max-width: 1024px) {
+    .table-of-contents {
+      position: relative;
+      float: none;
+      width: 100%;
+      margin: var(--space-6) 0;
+      top: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .toc-nav {
+      max-height: 200px;
+    }
+
+    .table-of-contents {
+      margin: var(--space-4) 0;
+    }
+  }
+</style>
+
+<script>
+  class TableOfContents {
+    constructor() {
+      this.toc = document.getElementById('toc');
+      this.tocList = document.getElementById('toc-list');
+      this.tocNav = document.getElementById('toc-nav');
+      this.tocToggle = document.getElementById('toc-toggle');
+      this.headings = [];
+      this.activeId = '';
+
+      this.init();
+    }
+
+    init() {
+      if (!this.toc || !this.tocList) return;
+
+      this.generateTOC();
+      this.bindEvents();
+      this.updateActiveHeading();
+
+      // 如果没有标题，隐藏TOC
+      if (this.headings.length === 0) {
+        this.toc.style.display = 'none';
+      }
+    }
+
+    generateTOC() {
+      // 查找所有二级到四级标题
+      const headings = document.querySelectorAll('.prose h2, .prose h3, .prose h4');
+
+      headings.forEach((heading, index) => {
+        const level = parseInt(heading.tagName.charAt(1));
+        const text = heading.textContent.trim();
+        const id = heading.id || this.generateId(text, index);
+
+        // 为标题添加ID（如果没有的话）
+        if (!heading.id) {
+          heading.id = id;
+        }
+
+        this.headings.push({ element: heading, id, text, level });
+
+        // 创建目录项
+        const listItem = document.createElement('li');
+        listItem.className = `toc-item level-${level}`;
+
+        const link = document.createElement('a');
+        link.href = `#${id}`;
+        link.className = 'toc-link';
+        link.textContent = text;
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.scrollToHeading(id);
+        });
+
+        listItem.appendChild(link);
+        this.tocList.appendChild(listItem);
+      });
+    }
+
+    generateId(text, index) {
+      // 生成URL友好的ID
+      return text
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '') // 移除特殊字符
+        .replace(/\s+/g, '-')     // 空格替换为连字符
+        .replace(/--+/g, '-')     // 多个连字符替换为单个
+        .trim() || `heading-${index}`;
+    }
+
+    bindEvents() {
+      // 切换目录显示/隐藏
+      if (this.tocToggle) {
+        this.tocToggle.addEventListener('click', () => {
+          this.tocNav.classList.toggle('collapsed');
+        });
+      }
+
+      // 滚动时更新活跃标题
+      window.addEventListener('scroll', () => {
+        this.throttle(this.updateActiveHeading.bind(this), 100)();
+      });
+
+      // 窗口大小改变时重新计算
+      window.addEventListener('resize', () => {
+        this.throttle(this.updateActiveHeading.bind(this), 100)();
+      });
+    }
+
+    scrollToHeading(id) {
+      const element = document.getElementById(id);
+      if (element) {
+        const offset = 80; // 预留顶部空间
+        const elementPosition = element.offsetTop - offset;
+
+        window.scrollTo({
+          top: elementPosition,
+          behavior: 'smooth'
+        });
+
+        // 更新活跃状态
+        this.setActiveHeading(id);
+      }
+    }
+
+    updateActiveHeading() {
+      let current = '';
+      const scrollPosition = window.scrollY + 100;
+
+      // 找到当前最接近的标题
+      for (let i = this.headings.length - 1; i >= 0; i--) {
+        const heading = this.headings[i];
+        if (heading.element.offsetTop <= scrollPosition) {
+          current = heading.id;
+          break;
+        }
+      }
+
+      if (current !== this.activeId) {
+        this.setActiveHeading(current);
+      }
+    }
+
+    setActiveHeading(id) {
+      // 移除所有活跃状态
+      this.tocList.querySelectorAll('.toc-link.active').forEach(link => {
+        link.classList.remove('active');
+      });
+
+      // 设置新的活跃状态
+      if (id) {
+        const activeLink = this.tocList.querySelector(`a[href="#${id}"]`);
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
+      }
+
+      this.activeId = id;
+    }
+
+    throttle(func, limit) {
+      let inThrottle;
+      return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+          func.apply(context, args);
+          inThrottle = true;
+          setTimeout(() => inThrottle = false, limit);
+        }
+      }
+    }
+  }
+
+  // 初始化目录
+  document.addEventListener('DOMContentLoaded', () => {
+    new TableOfContents();
+  });
+</script>

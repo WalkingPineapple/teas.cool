@@ -1,0 +1,289 @@
+/* 设计系统 - 全局变量和基础样式 */
+
+/* CSS 变量定义 */
+:root {
+  /* 配色方案 - 明亮模式 */
+  --color-primary: #2d5a27;
+  --color-secondary: #8b7355;
+  --color-accent: #d4af37;
+  --color-bg: #fefdfb;
+  --color-surface: #f8f6f0;
+  --color-text-primary: #2c2c2c;
+  --color-text-secondary: #666;
+  --color-text-muted: #999;
+  --color-border: #e5e5e5;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+
+  /* 字体系统 - 统一使用楷体风格 */
+  --font-family-main: "LXGW WenKai", "LXGW WenKai Screen", "霞鹜文楷", "KaiTi", "楷体", "STKaiti", "华文楷体", serif;
+  --font-family-ui: "LXGW WenKai", "LXGW WenKai Screen", "霞鹜文楷", "KaiTi", "楷体", "STKaiti", "华文楷体", sans-serif;
+  --font-family-mono: "JetBrains Mono", "Fira Code", "SF Mono", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+
+  /* 兼容旧变量名 */
+  --font-family-serif: var(--font-family-main);
+  --font-family-sans: var(--font-family-ui);
+
+  /* 字体大小 */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+
+  /* 间距系统 */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* 布局 */
+  --container-max-width: 1200px;
+  --container-padding: var(--space-6);
+  --section-spacing: var(--space-16);
+  --card-padding: var(--space-6);
+  --border-radius: 0.5rem;
+  --border-radius-lg: 1rem;
+
+  /* 过渡动画 */
+  --transition-fast: 150ms ease-out;
+  --transition-normal: 300ms ease-out;
+  --transition-slow: 500ms ease-out;
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* 暗色模式 */
+[data-theme="dark"] {
+  --color-primary: #4a7c59;
+  --color-secondary: #a68b5b;
+  --color-accent: #e6c547;
+  --color-bg: #1a1a1a;
+  --color-surface: #2a2a2a;
+  --color-text-primary: #e0e0e0;
+  --color-text-secondary: #a0a0a0;
+  --color-text-muted: #666;
+  --color-border: #333;
+  --color-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* 全局重置和基础样式 */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-main);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  margin: 0;
+  padding: 0;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  /* 字体渲染优化 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* 修复换行问题 */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 容器 */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* 文字样式 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-sans);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-4) 0;
+}
+
+h1 { font-size: var(--text-4xl); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+h5 { font-size: var(--text-lg); }
+h6 { font-size: var(--text-base); }
+
+p {
+  margin: 0 0 var(--space-4) 0;
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+/* 工具类 */
+.text-center { text-align: center; }
+.text-muted { color: var(--color-text-muted); }
+.text-accent { color: var(--color-accent); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-8 { margin-bottom: var(--space-8); }
+
+.mt-0 { margin-top: 0; }
+.mt-2 { margin-top: var(--space-2); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-8 { margin-top: var(--space-8); }
+
+/* 卡片样式 */
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  padding: var(--card-padding);
+  box-shadow: 0 2px 8px var(--color-shadow);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px var(--color-shadow);
+}
+
+/* 按钮样式 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-family-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  :root {
+    --container-padding: var(--space-4);
+    --section-spacing: var(--space-12);
+  }
+
+  h1 { font-size: var(--text-3xl); }
+  h2 { font-size: var(--text-2xl); }
+  h3 { font-size: var(--text-xl); }
+}
+
+/* 中文字体优化 */
+.chinese-text {
+  font-family: var(--font-family-serif);
+  font-feature-settings: "liga" 1, "kern" 1;
+}
+
+.ui-text {
+  font-family: var(--font-family-sans);
+}
+
+.code-text {
+  font-family: var(--font-family-mono);
+}
+
+/* 优化中英文混排 */
+p, li, div, span, h1, h2, h3, h4, h5, h6 {
+  font-variant-numeric: proportional-nums;
+  /* 修复长文本换行问题 */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  /* 处理长URL和代码 */
+  hyphens: auto;
+}
+
+/* 特殊元素的换行处理 */
+a, code {
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+/* 防止flex/grid容器中的文本溢出 */
+* {
+  min-width: 0;
+  min-height: 0;
+}
+
+/* 代码块的换行处理 */
+pre, code {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 全局图片优化 */
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+/* 图片加载占位 */
+img:not([src]):not([srcset]) {
+  visibility: hidden;
+}
+
+/* 防止图片闪烁 */
+img[src] {
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+img[src].loaded {
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 图片错误处理已移除 - 避免伪元素干扰 */

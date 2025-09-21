@@ -1,0 +1,911 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/blog/TableOfContents.astro';
+import { formatDate, getReadingTime } from '../utils/theme.js';
+
+const { title, description, pubDate, updatedDate, heroImage, tags = [], content } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="post-article">
+    <div class="container">
+      <!-- 文章头部 -->
+      <header class="post-header">
+        <div class="post-meta">
+          <time class="post-date" datetime={pubDate}>
+            {formatDate(pubDate)}
+          </time>
+          {updatedDate && (
+            <time class="post-updated" datetime={updatedDate}>
+              更新于 {formatDate(updatedDate)}
+            </time>
+          )}
+          <span class="reading-time">
+            {getReadingTime(content)}
+          </span>
+        </div>
+
+        <h1 class="post-title">{title}</h1>
+
+        {description && (
+          <p class="post-description">{description}</p>
+        )}
+
+        {tags.length > 0 && (
+          <div class="post-tags">
+            {tags.map(tag => (
+              <a href={`/tags/${tag}`} class="tag">
+                #{tag}
+              </a>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <!-- 阅读进度条 -->
+      <div class="reading-progress">
+        <div class="progress-bar"></div>
+      </div>
+
+      <!-- 文章内容容器 -->
+      <div class="post-body">
+        <!-- 文章目录 -->
+        <TableOfContents />
+
+        <!-- 文章内容 -->
+        <div class="post-content">
+          <div class="prose">
+            <slot />
+          </div>
+        </div>
+      </div>
+
+      <!-- 文章底部 -->
+      <footer class="post-footer">
+        <div class="post-navigation">
+          <div class="nav-links">
+            <slot name="prev-next" />
+          </div>
+        </div>
+
+        <div class="post-sharing">
+          <h4>分享文章</h4>
+          <div class="sharing-buttons">
+            <button class="share-btn" data-share="twitter">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+              </svg>
+              Twitter
+            </button>
+            <button class="share-btn" data-share="weibo">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9.68 14.14c-.82 0-1.48-.66-1.48-1.48s.66-1.48 1.48-1.48 1.48.66 1.48 1.48-.66 1.48-1.48 1.48zm4.32-2.96c-.3 0-.54-.24-.54-.54s.24-.54.54-.54.54.24.54.54-.24.54-.54.54z"/>
+              </svg>
+              微博
+            </button>
+            <button class="share-btn" data-share="pdf">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14,2 14,8 20,8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10,9 9,9 8,9"></polyline>
+              </svg>
+              下载PDF
+            </button>
+            <button class="share-btn" data-share="image">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21,15 16,10 5,21"></polyline>
+              </svg>
+              生成图片
+            </button>
+            <button class="share-btn" data-share="copy">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              复制链接
+            </button>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-article {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-8) var(--container-padding);
+  }
+
+  /* 文章主体布局 */
+  .post-body {
+    position: relative;
+    display: flex;
+    gap: var(--space-8);
+    align-items: flex-start;
+  }
+
+  /* 文章内容 */
+  .post-content {
+    flex: 1;
+    min-width: 0; /* 防止内容溢出 */
+    max-width: 800px;
+  }
+
+  /* 文章头部 */
+  .post-header {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-family: var(--font-family-mono);
+  }
+
+  .post-date,
+  .post-updated {
+    white-space: nowrap;
+  }
+
+  .reading-time {
+    margin-left: auto;
+  }
+
+  .post-title {
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-6) 0;
+    line-height: 1.2;
+  }
+
+  .post-description {
+    font-size: var(--text-xl);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0 0 var(--space-6) 0;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tag {
+    font-size: var(--text-xs);
+    color: var(--color-accent);
+    text-decoration: none;
+    padding: var(--space-1) var(--space-3);
+    background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    border-radius: var(--border-radius);
+    transition: all var(--transition-fast);
+    font-family: var(--font-family-mono);
+  }
+
+  .tag:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
+    transform: translateY(-1px);
+  }
+
+  /* 阅读进度条 */
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-border);
+    z-index: 1000;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    width: 0%;
+    transition: width 150ms ease-out;
+  }
+
+  /* 文章内容 */
+  .post-content {
+    margin-bottom: var(--space-16);
+  }
+
+  .prose {
+    font-size: var(--text-lg);
+    line-height: 1.8;
+    color: var(--color-text-primary);
+  }
+
+  .prose h2 {
+    font-size: var(--text-2xl);
+    margin: var(--space-8) 0 var(--space-4) 0;
+    color: var(--color-text-primary);
+  }
+
+  .prose h3 {
+    font-size: var(--text-xl);
+    margin: var(--space-6) 0 var(--space-3) 0;
+    color: var(--color-text-primary);
+  }
+
+  .prose p {
+    margin: 0 0 var(--space-6) 0;
+    color: var(--color-text-secondary);
+  }
+
+  .prose blockquote {
+    border-left: 4px solid var(--color-accent);
+    padding-left: var(--space-6);
+    margin: var(--space-8) 0;
+    font-style: italic;
+    color: var(--color-text-muted);
+  }
+
+  .prose code {
+    font-family: var(--font-family-mono);
+    font-size: 0.9em;
+    background-color: var(--color-surface);
+    padding: var(--space-1) var(--space-2);
+    border-radius: calc(var(--border-radius) * 0.5);
+    color: var(--color-accent);
+  }
+
+  /* Shiki代码块样式 */
+  .prose .astro-code {
+    background-color: var(--color-surface) !important;
+    padding: var(--space-6);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    margin: var(--space-8) 0;
+    overflow-x: auto;
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    box-shadow: 0 2px 8px var(--color-shadow);
+    position: relative;
+  }
+
+  /* 暗色模式自动切换 */
+  [data-theme="dark"] .prose .astro-code {
+    background-color: var(--color-surface) !important;
+  }
+
+  .prose .astro-code code {
+    background: transparent !important;
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    border-radius: 0;
+  }
+
+  /* 传统pre标签也支持 */
+  .prose pre:not(.astro-code) {
+    background-color: var(--color-surface);
+    padding: var(--space-6);
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+    margin: var(--space-8) 0;
+    border: 1px solid var(--color-border);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    box-shadow: 0 2px 8px var(--color-shadow);
+    position: relative;
+  }
+
+  .prose pre:not(.astro-code) code {
+    background: none !important;
+    padding: 0;
+    font-size: inherit;
+    color: var(--color-text-primary);
+  }
+
+  /* 内联代码 */
+  .prose code:not(pre code) {
+    background-color: var(--color-surface);
+    padding: var(--space-1) var(--space-2);
+    border-radius: calc(var(--border-radius) * 0.5);
+    color: var(--color-accent);
+    font-family: var(--font-family-mono);
+    font-size: 0.9em;
+    border: 1px solid var(--color-border);
+  }
+
+
+  .prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    margin: var(--space-8) 0;
+    box-shadow: 0 4px 16px var(--color-shadow);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    cursor: zoom-in;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 图片尺寸控制 */
+  .prose img {
+    /* 默认限制最大宽度为容器的90% */
+    max-width: min(90%, 800px);
+    /* 限制最大高度，避免过高的图片 */
+    max-height: 60vh;
+    object-fit: contain;
+  }
+
+  /* 小图片居中显示 */
+  .prose img[width], .prose img[style*="width"] {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 图片悬停效果 */
+  .prose img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 32px var(--color-shadow);
+  }
+
+  /* 图片点击放大功能 */
+  .image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    cursor: zoom-out;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+  }
+
+  .image-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .image-overlay img {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-radius);
+    transform: scale(0.9);
+    transition: transform var(--transition-normal);
+  }
+
+  .image-overlay.active img {
+    transform: scale(1);
+  }
+
+  /* 关闭按钮 */
+  .image-overlay .close-btn {
+    position: absolute;
+    top: var(--space-6);
+    right: var(--space-6);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-size: var(--text-lg);
+    transition: background-color var(--transition-fast);
+  }
+
+  .image-overlay .close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* 图片说明文字 */
+  .prose img + em,
+  .prose figure figcaption {
+    display: block;
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+
+  /* 响应式图片 */
+  @media (max-width: 768px) {
+    .prose img {
+      max-width: 100%;
+      max-height: 50vh;
+      margin: var(--space-6) 0;
+    }
+
+    .image-overlay .close-btn {
+      top: var(--space-4);
+      right: var(--space-4);
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  /* 文章底部 */
+  .post-footer {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-8);
+  }
+
+  .post-sharing {
+    margin-top: var(--space-8);
+  }
+
+  .post-sharing h4 {
+    font-size: var(--text-lg);
+    margin: 0 0 var(--space-4) 0;
+    color: var(--color-text-primary);
+  }
+
+  .sharing-buttons {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .share-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .share-btn:hover {
+    background-color: var(--color-primary);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 1024px) {
+    .post-body {
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .post-content {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .post-article {
+      padding: var(--space-6) var(--space-4);
+      max-width: 100%;
+    }
+
+    .post-title {
+      font-size: var(--text-3xl);
+    }
+
+    .post-description {
+      font-size: var(--text-lg);
+    }
+
+    .post-meta {
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .reading-time {
+      margin-left: 0;
+      order: -1;
+      width: 100%;
+    }
+
+    .prose {
+      font-size: var(--text-base);
+    }
+
+    .sharing-buttons {
+      justify-content: center;
+    }
+
+    .post-body {
+      gap: var(--space-4);
+    }
+  }
+</style>
+
+<script>
+  // 阅读进度条
+  function updateReadingProgress() {
+    const article = document.querySelector('.post-content');
+    const progressBar = document.querySelector('.progress-bar');
+
+    if (!article || !progressBar) return;
+
+    const articleTop = article.offsetTop;
+    const articleHeight = article.offsetHeight;
+    const windowHeight = window.innerHeight;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    const start = articleTop - windowHeight / 2;
+    const end = articleTop + articleHeight - windowHeight / 2;
+    const progress = Math.max(0, Math.min(100, ((scrollTop - start) / (end - start)) * 100));
+
+    progressBar.style.width = `${progress}%`;
+  }
+
+  // 分享功能
+  function setupSharing() {
+    const shareButtons = document.querySelectorAll('.share-btn');
+
+    shareButtons.forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const shareType = e.currentTarget.dataset.share;
+        const url = window.location.href;
+        const title = document.querySelector('.post-title').textContent;
+
+        // 添加加载状态
+        const originalText = btn.innerHTML;
+        btn.innerHTML = btn.innerHTML.replace(/\>(.*?)\</g, '>加载中...</>');
+        btn.disabled = true;
+
+        try {
+          switch(shareType) {
+            case 'twitter':
+              window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`);
+              break;
+            case 'weibo':
+              window.open(`https://service.weibo.com/share/share.php?title=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`);
+              break;
+            case 'pdf':
+              await downloadAsPDF();
+              break;
+            case 'image':
+              await downloadAsImage();
+              break;
+            case 'copy':
+              await navigator.clipboard.writeText(url);
+              btn.innerHTML = btn.innerHTML.replace(/\>.*?\</g, '>已复制！<');
+              setTimeout(() => {
+                btn.innerHTML = originalText;
+              }, 2000);
+              break;
+          }
+        } catch (error) {
+          console.error('分享失败:', error);
+          btn.innerHTML = btn.innerHTML.replace(/\>.*?\</g, '>失败，请重试<');
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+          }, 2000);
+        } finally {
+          if (shareType !== 'copy') {
+            btn.innerHTML = originalText;
+          }
+          btn.disabled = false;
+        }
+      });
+    });
+  }
+
+  // PDF下载功能
+  async function downloadAsPDF() {
+    try {
+      // 检查是否已经加载了库
+      if (!window.jsPDF || !window.html2canvas) {
+        // 动态加载脚本
+        await loadExternalScripts();
+      }
+
+      const element = document.querySelector('.post-content');
+      if (!element) {
+        throw new Error('找不到文章内容');
+      }
+
+      // 显示加载提示
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = 'pdf-loading';
+      loadingDiv.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: var(--color-surface); padding: 20px; border-radius: 8px;
+        box-shadow: 0 4px 16px var(--color-shadow); z-index: 1000;
+        font-family: var(--font-family-ui); text-align: center;
+      `;
+      loadingDiv.innerHTML = '<div>正在生成PDF...</div>';
+      document.body.appendChild(loadingDiv);
+
+      const canvas = await window.html2canvas(element, {
+        scale: 1.5,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: window.getComputedStyle(document.documentElement).getPropertyValue('--color-bg') || '#ffffff',
+        onclone: (clonedDoc) => {
+          // 确保克隆的文档样式正确
+          const clonedElement = clonedDoc.querySelector('.post-content');
+          if (clonedElement) {
+            clonedElement.style.maxWidth = 'none';
+            clonedElement.style.width = '800px';
+          }
+        }
+      });
+
+      const imgData = canvas.toDataURL('image/jpeg', 0.8);
+      const pdf = new window.jsPDF('p', 'mm', 'a4');
+
+      const imgWidth = 190;
+      const pageHeight = 280;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 10;
+
+      // 添加标题
+      const title = document.querySelector('.post-title').textContent;
+      pdf.setFontSize(16);
+      pdf.text(title, 105, 20, { align: 'center' });
+      pdf.setFontSize(10);
+      pdf.text(`来源: ${window.location.href}`, 105, 30, { align: 'center' });
+      pdf.text(`生成时间: ${new Date().toLocaleString()}`, 105, 35, { align: 'center' });
+
+      // 添加内容
+      pdf.addImage(imgData, 'JPEG', 10, 45, imgWidth, imgHeight);
+      heightLeft -= pageHeight - 45;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight + 10;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save(`${title.replace(/[^\w\s\u4e00-\u9fff]/gi, '').substring(0, 50)}.pdf`);
+
+      // 移除加载提示
+      document.body.removeChild(loadingDiv);
+    } catch (error) {
+      console.error('PDF生成失败:', error);
+      const loadingDiv = document.getElementById('pdf-loading');
+      if (loadingDiv) document.body.removeChild(loadingDiv);
+      alert('PDF生成失败: ' + error.message);
+    }
+  }
+
+  // 图片下载功能
+  async function downloadAsImage() {
+    try {
+      if (!window.html2canvas) {
+        await loadExternalScripts();
+      }
+
+      const element = document.querySelector('.post-content');
+      if (!element) {
+        throw new Error('找不到文章内容');
+      }
+
+      // 显示加载提示
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = 'image-loading';
+      loadingDiv.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: var(--color-surface); padding: 20px; border-radius: 8px;
+        box-shadow: 0 4px 16px var(--color-shadow); z-index: 1000;
+        font-family: var(--font-family-ui); text-align: center;
+      `;
+      loadingDiv.innerHTML = '<div>正在生成图片...</div>';
+      document.body.appendChild(loadingDiv);
+
+      const canvas = await window.html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: window.getComputedStyle(document.documentElement).getPropertyValue('--color-bg') || '#ffffff',
+        width: element.scrollWidth,
+        height: element.scrollHeight,
+        onclone: (clonedDoc) => {
+          const clonedElement = clonedDoc.querySelector('.post-content');
+          if (clonedElement) {
+            clonedElement.style.maxWidth = 'none';
+            clonedElement.style.width = '800px';
+          }
+        }
+      });
+
+      // 创建下载链接
+      const link = document.createElement('a');
+      const title = document.querySelector('.post-title').textContent;
+      link.download = `${title.replace(/[^\w\s\u4e00-\u9fff]/gi, '').substring(0, 50)}.png`;
+      link.href = canvas.toDataURL('image/png', 1.0);
+
+      // 触发下载
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // 移除加载提示
+      document.body.removeChild(loadingDiv);
+    } catch (error) {
+      console.error('图片生成失败:', error);
+      const loadingDiv = document.getElementById('image-loading');
+      if (loadingDiv) document.body.removeChild(loadingDiv);
+      alert('图片生成失败: ' + error.message);
+    }
+  }
+
+  // 加载外部脚本
+  function loadExternalScripts() {
+    return new Promise((resolve, reject) => {
+      let scriptsLoaded = 0;
+      const totalScripts = 2;
+
+      function checkComplete() {
+        scriptsLoaded++;
+        if (scriptsLoaded === totalScripts) {
+          resolve();
+        }
+      }
+
+      // 加载html2canvas
+      if (!window.html2canvas) {
+        const html2canvasScript = document.createElement('script');
+        html2canvasScript.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+        html2canvasScript.onload = checkComplete;
+        html2canvasScript.onerror = () => reject(new Error('html2canvas加载失败'));
+        document.head.appendChild(html2canvasScript);
+      } else {
+        checkComplete();
+      }
+
+      // 加载jsPDF
+      if (!window.jsPDF) {
+        const jsPDFScript = document.createElement('script');
+        jsPDFScript.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js';
+        jsPDFScript.onload = () => {
+          window.jsPDF = window.jspdf.jsPDF;
+          checkComplete();
+        };
+        jsPDFScript.onerror = () => reject(new Error('jsPDF加载失败'));
+        document.head.appendChild(jsPDFScript);
+      } else {
+        checkComplete();
+      }
+    });
+  }
+
+  // 图片点击放大功能
+  function setupImageZoom() {
+    const images = document.querySelectorAll('.prose img');
+    let overlay = document.querySelector('.image-overlay');
+
+    // 创建图片放大遮罩层
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'image-overlay';
+      overlay.innerHTML = `
+        <button class="close-btn" aria-label="关闭">×</button>
+        <img src="" alt="" />
+      `;
+      document.body.appendChild(overlay);
+    }
+
+    const overlayImg = overlay.querySelector('img');
+    const closeBtn = overlay.querySelector('.close-btn');
+
+    // 为每个图片添加点击事件
+    images.forEach(img => {
+      // 跳过已经在遮罩层中的图片
+      if (img.closest('.image-overlay')) return;
+
+      img.addEventListener('click', (e) => {
+        e.preventDefault();
+        overlayImg.src = img.src;
+        overlayImg.alt = img.alt || '';
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    // 关闭功能
+    function closeOverlay() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        closeOverlay();
+      }
+    });
+
+    // ESC键关闭
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) {
+        closeOverlay();
+      }
+    });
+  }
+
+  // 图片懒加载和优化
+  function optimizeImages() {
+    const images = document.querySelectorAll('.prose img');
+
+    images.forEach(img => {
+      // 添加加载状态
+      img.style.opacity = '0';
+      img.style.transition = 'opacity 0.3s ease';
+
+      // 图片加载完成后显示
+      if (img.complete) {
+        img.style.opacity = '1';
+      } else {
+        img.addEventListener('load', () => {
+          img.style.opacity = '1';
+        });
+
+        img.addEventListener('error', () => {
+          img.style.opacity = '0.5';
+          console.warn('图片加载失败:', img.src);
+        });
+      }
+
+      // 添加alt属性提示
+      if (!img.alt) {
+        img.alt = '文章图片';
+      }
+    });
+  }
+
+  // 主题切换时更新代码块
+  function updateCodeBlocks() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    const codeBlocks = document.querySelectorAll('.astro-code');
+
+    codeBlocks.forEach(block => {
+      // Shiki会自动处理主题切换，这里主要确保样式正确
+      if (theme === 'dark') {
+        block.setAttribute('data-theme', 'dark');
+      } else {
+        block.setAttribute('data-theme', 'light');
+      }
+    });
+  }
+
+  // 初始化
+  document.addEventListener('DOMContentLoaded', () => {
+    updateReadingProgress();
+    setupSharing();
+    updateCodeBlocks();
+    setupImageZoom();
+    optimizeImages();
+
+    // 监听主题变化
+    window.addEventListener('theme-changed', updateCodeBlocks);
+  });
+
+  // 滚动时更新进度条
+  window.addEventListener('scroll', updateReadingProgress);
+  window.addEventListener('resize', updateReadingProgress);
+</script>

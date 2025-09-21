@@ -1,0 +1,18 @@
+---
+interface Props {
+  class?: string;
+  hoverable?: boolean;
+}
+
+const { class: className, hoverable = true, ...rest } = Astro.props;
+
+const classes = [
+  'card',
+  hoverable && 'hover:transform hover:scale-[1.02]',
+  className
+].filter(Boolean).join(' ');
+---
+
+<div class={classes} {...rest}>
+  <slot />
+</div>

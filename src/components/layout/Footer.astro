@@ -1,0 +1,81 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-info">
+        <p class="footer-text">
+          © {currentYear} 直接开摆 - 闲来拈花随风笑，煮茶不问世间嚣
+        </p>
+        <p class="footer-text">
+          由 <a href="https://astro.build" target="_blank" rel="noopener">Astro</a> 强力驱动
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="/rss.xml" class="footer-link">RSS</a>
+        <a href="mailto:inclu@sohu.com" class="footer-link">联系</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--section-spacing);
+    padding: var(--space-8) 0;
+  }
+
+  .footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-info {
+    flex: 1;
+  }
+
+  .footer-text {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .footer-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .footer-link {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-link:hover {
+    color: var(--color-primary);
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      gap: var(--space-4);
+      text-align: center;
+    }
+
+    .footer-info {
+      text-align: center;
+    }
+  }
+</style>
