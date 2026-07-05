@@ -25,50 +25,50 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>
+      (() => {
+        try {
+          const savedTheme = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.dataset.theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        } catch (_) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title={title} href={new URL('rss.xml', Astro.site)} />
+    <link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin />
+    <link rel="preconnect" href="https://npm.elemecdn.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css"
+      crossorigin
+      onerror="this.onerror=null;this.href='https://npm.elemecdn.com/lxgw-wenkai-screen-webfont@1.7.0/style.css';"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcdn.net/ajax/libs/inter-ui/4.1.1/inter-variable-latin.min.css"
+      crossorigin
+    />
 
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href={canonicalURL} />
-
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.url)} />
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
-
-    <!-- RSS Feed -->
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title={title}
-      href={new URL('rss.xml', Astro.site)}
-    />
-
-    <!-- Preload fonts -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
-    <!-- 使用jsDelivr CDN加载露霞文楷，国内访问更稳定 -->
-    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.330.0/style.css" rel="stylesheet">
-
-    <!-- 备用楷体字体 - 使用系统字体作为fallback -->
-    <style>
-      /* 楷体字体栈 - 优先使用露霞文楷，fallback到系统楷体 */
-      :root {
-        --font-family-kai: "LXGW WenKai", "LXGW WenKai Screen", "霞鹜文楷", "KaiTi", "楷体", "STKaiti", "华文楷体", serif;
-      }
-    </style>
   </head>
   <body>
     <Header />
@@ -81,11 +81,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 <style is:global>
   .main-content {
-    min-height: calc(100vh - 200px);
-    padding: var(--space-8) 0;
+    min-height: calc(100vh - 220px);
+    padding: 0 0 var(--space-16);
   }
 
-  /* 页面切换动画 */
   @media (prefers-reduced-motion: no-preference) {
     html {
       view-transition-name: root;

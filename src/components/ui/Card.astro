@@ -8,7 +8,7 @@ const { class: className, hoverable = true, ...rest } = Astro.props;
 
 const classes = [
   'card',
-  hoverable && 'hover:transform hover:scale-[1.02]',
+  hoverable && 'is-hoverable',
   className
 ].filter(Boolean).join(' ');
 ---

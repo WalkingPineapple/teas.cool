@@ -7,7 +7,11 @@
 		"start": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
-		"astro": "astro"
+		"astro": "astro",
+		"content": "node scripts/content/index.mjs",
+		"content:doctor": "node scripts/content/index.mjs doctor",
+		"content:obsidian": "node scripts/content/index.mjs obsidian",
+		"content:notion": "node scripts/content/index.mjs notion"
 	},
 	"dependencies": {
 		"@astrojs/rss": "^2.1.1",

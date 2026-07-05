@@ -3,47 +3,46 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PostCard from "../components/blog/PostCard.astro";
 import Button from "../components/ui/Button.astro";
 
-// 获取所有博客文章
 const allPosts = await Astro.glob("../pages/posts/*.md");
 allPosts.sort((a, b) => Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate));
 
-// 获取最新的几篇文章
-const recentPosts = allPosts.slice(0, 6);
+const recentPosts = allPosts.slice(0, 7);
+const latestPost = recentPosts[0];
 ---
 
 <BaseLayout>
-  <!-- Hero 区域 -->
-  <section class="hero-section">
-    <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-title">直接开摆</h1>
-        <p class="hero-subtitle">闲来拈花随风笑，煮茶不问世间嚣</p>
-        <div class="hero-stats">
-          <span class="stat">
-            <strong>{allPosts.length}</strong> 篇文章
-          </span>
-          <span class="stat">
-            持续更新中...
-          </span>
-        </div>
-      </div>
+  <section class="home-hero">
+    <div class="container-narrow">
+      <h1>直接开摆</h1>
+      <p class="hero-subtitle">闲来拈花随风笑，煮茶不问世间嚣。</p>
+      <p class="hero-text">
+        To be a sailor of the world, bound for all ports.
+      </p>
+      {latestPost && (
+        <a class="latest-note" href={latestPost.url}>
+          <span>最近一篇</span>
+          <strong>{latestPost.frontmatter.title}</strong>
+        </a>
+      )}
     </div>
   </section>
 
-  <!-- 最新文章 -->
-  <section class="posts-section">
+  <section class="home-feed">
     <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">最新文章</h2>
-        <p class="section-description">分享生活感悟与技术思考</p>
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">Notes</span>
+          <h2>最近写下的</h2>
+        </div>
+        <a href="/archive" class="muted-link">全部文章</a>
       </div>
 
-      <div class="posts-grid">
+      <div class="post-list">
         {recentPosts.map((post) => (
           <PostCard
             title={post.frontmatter.title}
             href={post.url}
-            description={post.frontmatter.description || post.compiledContent().slice(0, 150) + '...'}
+            description={post.frontmatter.description || post.compiledContent().replace(/<[^>]*>/g, '').slice(0, 120) + '...'}
             date={post.frontmatter.pubDate}
             tags={post.frontmatter.tags || []}
             content={post.compiledContent()}
@@ -51,157 +50,116 @@ const recentPosts = allPosts.slice(0, 6);
         ))}
       </div>
 
-      <div class="section-footer">
-        <Button href="/archive" variant="secondary" size="lg">
-          查看全部文章
-        </Button>
+      <div class="feed-action">
+        <Button href="/archive" variant="secondary">翻完整个目录</Button>
       </div>
     </div>
   </section>
 
-  <!-- 关于区域 -->
-  <section class="about-section">
-    <div class="container">
-      <div class="about-content">
-        <h2 class="about-title">关于博客</h2>
-        <p class="about-text">
-          记录生活的点点滴滴，分享思考的片片段段。
-          不追求完美，只求真实；不在意频率，只在意质量。
-        </p>
-        <Button href="/about" variant="primary">
-          了解更多
-        </Button>
-      </div>
+  <section class="home-about surface-band">
+    <div class="container-narrow">
+      <span class="eyebrow">About</span>
+      <h2>闲敲棋子落灯花。</h2>
+      <p>最是人间留不住，朱颜辞镜花辞树。</p>
+      <Button href="/about" variant="primary">再多看一点</Button>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  /* Hero Section */
-  .hero-section {
-    padding: var(--space-16) 0 var(--space-12) 0;
-    background: linear-gradient(135deg,
-      color-mix(in srgb, var(--color-primary) 5%, var(--color-bg)) 0%,
-      var(--color-bg) 100%);
-    text-align: center;
+  .home-hero {
+    padding: clamp(4rem, 11vw, 8rem) 0 var(--section-spacing);
   }
 
-  .hero-content {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .hero-title {
-    font-size: var(--text-4xl);
-    font-weight: 700;
+  .home-hero h1 {
+    margin-bottom: var(--space-4);
+    font-size: clamp(3rem, 10vw, 5.75rem);
+    line-height: 1.05;
     color: var(--color-primary);
-    margin: 0 0 var(--space-4) 0;
-    font-family: var(--font-family-serif);
   }
 
   .hero-subtitle {
-    font-size: var(--text-xl);
-    color: var(--color-text-secondary);
-    margin: 0 0 var(--space-8) 0;
-    line-height: 1.6;
-  }
-
-  .hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-8);
-    font-family: var(--font-family-sans);
-  }
-
-  .stat {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-  }
-
-  .stat strong {
-    color: var(--color-accent);
-    font-weight: 600;
-  }
-
-  /* Posts Section */
-  .posts-section {
-    padding: var(--section-spacing) 0;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: var(--space-12);
-  }
-
-  .section-title {
-    font-size: var(--text-3xl);
+    margin-bottom: var(--space-6);
     color: var(--color-text-primary);
-    margin: 0 0 var(--space-4) 0;
-  }
-
-  .section-description {
-    font-size: var(--text-lg);
-    color: var(--color-text-secondary);
-    margin: 0;
-  }
-
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--space-8);
-    margin-bottom: var(--space-12);
-  }
-
-  .section-footer {
-    text-align: center;
-  }
-
-  /* About Section */
-  .about-section {
-    padding: var(--section-spacing) 0;
-    background-color: var(--color-surface);
-  }
-
-  .about-content {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .about-title {
     font-size: var(--text-2xl);
-    color: var(--color-text-primary);
-    margin: 0 0 var(--space-6) 0;
+    line-height: 1.5;
   }
 
-  .about-text {
+  .hero-text {
+    max-width: 38rem;
+    margin-bottom: var(--space-8);
     font-size: var(--text-lg);
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-    margin: 0 0 var(--space-8) 0;
   }
 
-  /* 响应式设计 */
-  @media (max-width: 768px) {
-    .hero-title {
-      font-size: var(--text-3xl);
-    }
+  .latest-note {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-4) 0 0;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
 
-    .hero-subtitle {
-      font-size: var(--text-lg);
-    }
+  .latest-note span {
+    color: var(--color-text-muted);
+    font-family: var(--font-family-ui);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 
-    .hero-stats {
-      gap: var(--space-4);
-    }
+  .latest-note strong {
+    color: var(--color-text-primary);
+    font-size: var(--text-xl);
+    transition: color var(--transition-fast);
+  }
 
-    .posts-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-6);
-    }
+  .latest-note:hover strong {
+    color: var(--color-primary);
+  }
 
-    .section-title {
-      font-size: var(--text-2xl);
+  .home-feed {
+    padding: 0 0 var(--section-spacing);
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+
+  .section-heading h2 {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-3xl);
+  }
+
+  .feed-action {
+    margin-top: var(--space-8);
+    text-align: center;
+  }
+
+  .home-about {
+    padding: var(--section-spacing) 0;
+  }
+
+  .home-about h2 {
+    margin-top: var(--space-3);
+    font-size: var(--text-3xl);
+  }
+
+  .home-about p {
+    margin-bottom: var(--space-8);
+    font-size: var(--text-lg);
+  }
+
+  @media (max-width: 640px) {
+    .section-heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-2);
     }
   }
 </style>

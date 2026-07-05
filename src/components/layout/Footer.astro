@@ -1,81 +1,84 @@
 ---
+import { SITE_EMAIL, SITE_NAME } from '../../consts';
+
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="container">
     <div class="footer-content">
-      <div class="footer-info">
-        <p class="footer-text">
-          © {currentYear} 直接开摆 - 闲来拈花随风笑，煮茶不问世间嚣
-        </p>
-        <p class="footer-text">
-          由 <a href="https://astro.build" target="_blank" rel="noopener">Astro</a> 强力驱动
-        </p>
-      </div>
-
-      <div class="footer-links">
-        <a href="/rss.xml" class="footer-link">RSS</a>
-        <a href="mailto:inclu@sohu.com" class="footer-link">联系</a>
-      </div>
+      <p class="footer-line">
+        © {currentYear} {SITE_NAME}
+      </p>
+      <p class="footer-quote">
+        闲来拈花随风笑，煮茶不问世间嚣
+      </p>
+      <nav class="footer-links" aria-label="页脚导航">
+        <a href="/rss.xml">RSS</a>
+        <a href={`mailto:${SITE_EMAIL}`}>联系</a>
+        <a href="https://astro.build" target="_blank" rel="noopener">Astro</a>
+      </nav>
     </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background-color: var(--color-surface);
+    padding: var(--space-10) 0 var(--space-12);
     border-top: 1px solid var(--color-border);
-    margin-top: var(--section-spacing);
-    padding: var(--space-8) 0;
+    color: var(--color-text-muted);
   }
 
   .footer-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: var(--space-2) var(--space-6);
   }
 
-  .footer-info {
-    flex: 1;
-  }
-
-  .footer-text {
-    font-size: var(--text-sm);
+  .footer-line,
+  .footer-quote {
+    margin: 0;
     color: var(--color-text-muted);
-    margin-bottom: var(--space-2);
   }
 
-  .footer-text:last-child {
-    margin-bottom: 0;
+  .footer-line {
+    font-family: var(--font-family-ui);
+    font-size: var(--text-sm);
+  }
+
+  .footer-quote {
+    font-size: var(--text-base);
   }
 
   .footer-links {
+    grid-row: 1 / span 2;
+    grid-column: 2;
     display: flex;
     gap: var(--space-4);
-  }
-
-  .footer-link {
+    font-family: var(--font-family-ui);
     font-size: var(--text-sm);
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    transition: color var(--transition-fast);
   }
 
-  .footer-link:hover {
+  .footer-links a {
+    color: var(--color-text-muted);
+  }
+
+  .footer-links a:hover {
     color: var(--color-primary);
   }
 
-  /* 响应式 */
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
     .footer-content {
-      flex-direction: column;
-      gap: var(--space-4);
+      grid-template-columns: 1fr;
       text-align: center;
     }
 
-    .footer-info {
-      text-align: center;
+    .footer-links {
+      grid-row: auto;
+      grid-column: auto;
+      justify-content: center;
+      margin-top: var(--space-3);
     }
   }
 </style>

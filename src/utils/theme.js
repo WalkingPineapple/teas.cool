@@ -5,27 +5,28 @@ export class ThemeManager {
   }
 
   init() {
-    // 从localStorage获取保存的主题，或使用系统偏好
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     const theme = savedTheme || (prefersDark ? 'dark' : 'light');
-    this.setTheme(theme);
+    this.applyTheme(theme);
 
-    // 监听系统主题变化
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
       if (!localStorage.getItem('theme')) {
-        this.setTheme(e.matches ? 'dark' : 'light');
+        this.applyTheme(e.matches ? 'dark' : 'light');
       }
     });
   }
 
-  setTheme(theme) {
+  applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
 
-    // 触发自定义事件
     window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme } }));
+  }
+
+  setTheme(theme) {
+    localStorage.setItem('theme', theme);
+    this.applyTheme(theme);
   }
 
   getTheme() {

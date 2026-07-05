@@ -4,14 +4,11 @@ import PostCard from "../components/blog/PostCard.astro";
 import SearchBox from "../components/blog/SearchBox.astro";
 import TagCloud from "../components/blog/TagCloud.astro";
 
-// 获取所有文章
 const allPosts = await Astro.glob("./posts/*.md");
-allPosts.sort((a, b) => new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate));
+allPosts.sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime());
 
-// 提取所有标签
-const allTags = [...new Set(allPosts.flatMap(post => post.frontmatter.tags || []))];
+const allTags = allPosts.flatMap(post => post.frontmatter.tags || []);
 
-// 按年份分组
 const postsByYear = allPosts.reduce((acc, post) => {
   const year = new Date(post.frontmatter.pubDate).getFullYear();
   if (!acc[year]) acc[year] = [];
@@ -19,67 +16,41 @@ const postsByYear = allPosts.reduce((acc, post) => {
   return acc;
 }, {});
 
-const years = Object.keys(postsByYear).sort((a, b) => b - a);
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 ---
 
-<BaseLayout title="归档">
+<BaseLayout title="文章">
   <div class="archive-page">
     <div class="container">
-      <!-- 页面头部 -->
       <header class="archive-header">
-        <h1 class="archive-title">文章归档</h1>
-        <p class="archive-subtitle">
-          共 {allPosts.length} 篇文章，{allTags.length} 个标签
-        </p>
+        <span class="eyebrow">Archive</span>
+        <h1>文章目录</h1>
+        <p>共 {allPosts.length} 篇文章，{new Set(allTags).size} 个标签。慢慢翻就好，不着急。</p>
       </header>
 
-      <!-- 搜索功能 -->
-      <div class="search-section">
-        <SearchBox placeholder="搜索文章标题、内容或标签..." />
-      </div>
-
-      <!-- 标签云 -->
-      <div class="tags-section">
+      <div class="archive-tools">
+        <SearchBox placeholder="搜标题、内容或标签" />
         <TagCloud tags={allTags} />
       </div>
 
-      <!-- 文章列表 -->
-      <div class="posts-section">
+      <div class="year-list">
         {years.map(year => (
-          <div class="year-group">
-            <h2 class="year-header">{year}</h2>
-            <div class="posts-grid">
+          <section class="year-group" aria-labelledby={`year-${year}`}>
+            <h2 id={`year-${year}`} class="year-heading">{year}</h2>
+            <div class="post-list">
               {postsByYear[year].map(post => (
                 <PostCard
                   title={post.frontmatter.title}
                   href={post.url}
-                  description={post.frontmatter.description || post.compiledContent().slice(0, 150) + '...'}
+                  description={post.frontmatter.description || post.compiledContent().replace(/<[^>]*>/g, '').slice(0, 120) + '...'}
                   date={post.frontmatter.pubDate}
                   tags={post.frontmatter.tags || []}
                   content={post.compiledContent()}
                 />
               ))}
             </div>
-          </div>
+          </section>
         ))}
-      </div>
-
-      <!-- 统计信息 -->
-      <div class="archive-stats">
-        <div class="stats-grid">
-          <div class="stat-item">
-            <strong class="stat-number">{allPosts.length}</strong>
-            <span class="stat-label">篇文章</span>
-          </div>
-          <div class="stat-item">
-            <strong class="stat-number">{allTags.length}</strong>
-            <span class="stat-label">个标签</span>
-          </div>
-          <div class="stat-item">
-            <strong class="stat-number">{years.length}</strong>
-            <span class="stat-label">年</span>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -87,130 +58,63 @@ const years = Object.keys(postsByYear).sort((a, b) => b - a);
 
 <style>
   .archive-page {
-    min-height: calc(100vh - 200px);
+    padding: var(--space-16) 0 0;
   }
 
-  /* 页面头部 */
   .archive-header {
-    text-align: center;
-    margin-bottom: var(--space-12);
+    max-width: 42rem;
+    margin-bottom: var(--space-10);
   }
 
-  .archive-title {
+  .archive-header h1 {
+    margin: var(--space-3) 0 var(--space-4);
+    color: var(--color-primary);
     font-size: var(--text-4xl);
-    color: var(--color-text-primary);
-    margin: 0 0 var(--space-4) 0;
   }
 
-  .archive-subtitle {
+  .archive-header p {
     font-size: var(--text-lg);
-    color: var(--color-text-secondary);
-    margin: 0;
-    font-family: var(--font-family-mono);
   }
 
-  /* 搜索区域 */
-  .search-section {
+  .archive-tools {
+    display: grid;
+    grid-template-columns: minmax(18rem, 28rem) 1fr;
+    align-items: start;
+    gap: var(--space-8);
     margin-bottom: var(--space-12);
-    display: flex;
-    justify-content: center;
-  }
-
-  /* 标签区域 */
-  .tags-section {
-    margin-bottom: var(--space-12);
-    padding: var(--space-8);
-    background-color: var(--color-surface);
-    border-radius: var(--border-radius-lg);
-  }
-
-  /* 文章列表 */
-  .posts-section {
-    margin-bottom: var(--space-12);
+    padding: var(--space-6) 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .year-group {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: var(--space-8);
     margin-bottom: var(--space-16);
   }
 
-  .year-header {
-    font-size: var(--text-2xl);
-    color: var(--color-primary);
-    margin: 0 0 var(--space-6) 0;
-    padding-bottom: var(--space-3);
-    border-bottom: 2px solid var(--color-border);
-    font-family: var(--font-family-mono);
-  }
-
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--space-6);
-  }
-
-  /* 统计信息 */
-  .archive-stats {
-    padding: var(--space-8);
-    background-color: var(--color-surface);
-    border-radius: var(--border-radius-lg);
-    margin-bottom: var(--space-8);
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6);
-    text-align: center;
-  }
-
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .stat-number {
-    font-size: var(--text-3xl);
-    font-weight: 700;
+  .year-heading {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+    margin: 0;
     color: var(--color-accent);
-    font-family: var(--font-family-mono);
+    font-family: var(--font-family-ui);
+    font-size: var(--text-lg);
   }
 
-  .stat-label {
-    font-size: var(--text-base);
-    color: var(--color-text-secondary);
-    font-family: var(--font-family-sans);
-  }
-
-  /* 响应式设计 */
-  @media (max-width: 768px) {
-    .archive-title {
-      font-size: var(--text-3xl);
-    }
-
-    .archive-subtitle {
-      font-size: var(--text-base);
-    }
-
-    .posts-grid {
+  @media (max-width: 860px) {
+    .archive-tools,
+    .year-group {
       grid-template-columns: 1fr;
-      gap: var(--space-4);
+      gap: var(--space-5);
     }
 
-    .stats-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-4);
-    }
-
-    .tags-section,
-    .archive-stats {
-      padding: var(--space-6);
-    }
-
-    .search-section {
-      margin-bottom: var(--space-8);
-      padding: 0 var(--space-4);
+    .year-heading {
+      position: static;
+      padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--color-border);
     }
   }
 </style>

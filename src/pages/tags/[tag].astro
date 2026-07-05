@@ -1,32 +1,114 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ArchivePostList from "../../layouts/ArchivePostList.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+import TagCloud from "../../components/blog/TagCloud.astro";
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { posts, allTags } = Astro.props;
 
 export async function getStaticPaths() {
   const allPosts = await Astro.glob("../posts/*.md");
-  const uniqueTags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+  const tags = allPosts.flatMap((post) => post.frontmatter.tags || []);
+  const uniqueTags = [...new Set(tags)];
+
   return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post) => post.frontmatter.tags.includes(tag));
+    const filteredPosts = allPosts
+      .filter((post) => (post.frontmatter.tags || []).includes(tag))
+      .sort((a, b) => Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate));
+
     return {
       params: { tag },
-      props: { posts: filteredPosts },
+      props: { posts: filteredPosts, allTags: tags },
     };
   });
 }
-
 ---
 
-<BaseLayout primaryTitle={tag}>
-  <section class="archive">
-    <div class="section-content section-tag">
-      <div class="archive-tag">
-        <h2 class="tag-header">{tag}</h2>
-        <div class="tag-post-list">{
-        posts.length !== 0 ? <ArchivePostList posts={posts} /> : <div class="no-posts">暂无文章</div>}</div>
+<BaseLayout title={`标签：${tag}`}>
+  <div class="tag-page">
+    <div class="container">
+      <header class="tag-header">
+        <span class="eyebrow">Tag</span>
+        <h1>{tag}</h1>
+        <p>这个标签下有 {posts.length} 篇文章。</p>
+      </header>
+
+      <div class="tag-layout">
+        <aside class="tag-side">
+          <TagCloud tags={allTags} selectedTag={tag} />
+        </aside>
+
+        <div class="post-list">
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <PostCard
+                title={post.frontmatter.title}
+                href={post.url}
+                description={post.frontmatter.description || post.compiledContent().replace(/<[^>]*>/g, '').slice(0, 120) + '...'}
+                date={post.frontmatter.pubDate}
+                tags={post.frontmatter.tags || []}
+                content={post.compiledContent()}
+              />
+            ))
+          ) : (
+            <p class="empty">暂无文章</p>
+          )}
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 </BaseLayout>
+
+<style>
+  .tag-page {
+    padding: var(--space-16) 0 0;
+  }
+
+  .tag-header {
+    max-width: 42rem;
+    margin-bottom: var(--space-10);
+  }
+
+  .tag-header h1 {
+    margin: var(--space-3) 0 var(--space-4);
+    color: var(--color-primary);
+    font-size: var(--text-4xl);
+  }
+
+  .tag-header p {
+    font-size: var(--text-lg);
+  }
+
+  .tag-layout {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  .tag-side {
+    position: sticky;
+    top: 6rem;
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .empty {
+    padding: var(--space-8) 0;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 860px) {
+    .tag-layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .tag-side {
+      position: static;
+      padding: var(--space-5) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+</style>

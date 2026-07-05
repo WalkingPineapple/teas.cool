@@ -1,15 +1,44 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ArchivePostList from "../layouts/ArchivePostList.astro";
 ---
 
-<BaseLayout primaryTitle="404 Not Found">
-  <section class="archive">
-    <div class="section-content section-tag">
-      <div class="archive-tag">
-        <h2 class="tag-header">404 Not Found</h2>
-        <div class="tag-post-list">来到了一片荒原，这里什么都没有。</div>
+<BaseLayout title="404">
+  <section class="not-found">
+    <div class="container-narrow">
+      <span class="eyebrow">404</span>
+      <h1>来到了一片荒原。</h1>
+      <p>这里什么都没有，也许文章搬家了，也许它本来就没出现过。</p>
+      <div class="actions">
+        <a href="/" class="btn btn-primary">回首页</a>
+        <a href="/archive" class="btn btn-secondary">看目录</a>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    align-items: center;
+    min-height: 62vh;
+    padding: var(--space-16) 0 0;
+  }
+
+  .not-found h1 {
+    margin: var(--space-3) 0 var(--space-5);
+    color: var(--color-primary);
+    font-size: clamp(2.5rem, 9vw, 5rem);
+  }
+
+  .not-found p {
+    max-width: 34rem;
+    font-size: var(--text-lg);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+</style>

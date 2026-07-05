@@ -10,25 +10,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <p>测试不同字体在博客中的显示效果</p>
       </header>
 
-      <!-- 露霞文楷 -->
+      <!-- 霞鹜文楷屏幕版 -->
       <section class="font-section">
-        <h2 class="font-title">露霞文楷（LXGW WenKai）- 当前使用</h2>
+        <h2 class="font-title">霞鹜文楷屏幕版（LXGW WenKai Screen）- 当前正文</h2>
         <div class="font-sample lxgw-wenkai">
           <h3>标题展示</h3>
           <p class="large-text">闲来拈花随风笑，煮茶不问世间嚣</p>
-          <p>这是一段正文内容。露霞文楷是基于霞鹜文楷的开源中文字体，具有现代而温润的笔触，非常适合阅读。Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>这是一段正文内容。霞鹜文楷屏幕版通过大陆访问更友好的 CDN 加载，具有温润的笔触和比较轻松的阅读气质。Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           <p>中英文混排测试：Technology 技术、Design 设计、Development 开发。数字测试：1234567890</p>
           <code class="code-sample">console.log('Hello World!');</code>
         </div>
       </section>
 
-      <!-- 思源宋体对比 -->
+      <!-- 系统字体兜底 -->
       <section class="font-section">
-        <h2 class="font-title">思源宋体（Noto Serif SC）</h2>
-        <div class="font-sample noto-serif">
+        <h2 class="font-title">系统中文字体 - 加载失败时兜底</h2>
+        <div class="font-sample system-serif">
           <h3>标题展示</h3>
           <p class="large-text">闲来拈花随风笑，煮茶不问世间嚣</p>
-          <p>这是一段正文内容。思源宋体是Google开发的开源字体，传统而优雅，适合长文本阅读。Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>这是一段正文内容。如果外部字体还没加载完成，浏览器会先使用本机字体显示，页面不会白屏等待。Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           <p>中英文混排测试：Technology 技术、Design 设计、Development 开发。数字测试：1234567890</p>
           <code class="code-sample">console.log('Hello World!');</code>
         </div>
@@ -36,11 +36,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       <!-- Inter字体 -->
       <section class="font-section">
-        <h2 class="font-title">Inter - 英文/UI字体</h2>
+        <h2 class="font-title">Inter Variable - 英文/UI 字体</h2>
         <div class="font-sample inter-font">
           <h3>标题展示</h3>
           <p class="large-text">闲来拈花随风笑，煮茶不问世间嚣</p>
-          <p>这是一段正文内容。Inter是专为界面设计的现代字体，在各种尺寸下都有良好的可读性。Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>这是一段正文内容。Inter 只负责英文和 UI 场景，小尺寸导航、按钮、标签会更清晰。Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           <p>中英文混排测试：Technology 技术、Design 设计、Development 开发。数字测试：1234567890</p>
           <code class="code-sample">console.log('Hello World!');</code>
         </div>
@@ -51,33 +51,33 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <h2>字体特性对比</h2>
         <div class="comparison-grid">
           <div class="comparison-item">
-            <h4>露霞文楷</h4>
+            <h4>霞鹜文楷屏幕版</h4>
             <ul>
-              <li>✅ 现代手写风格</li>
-              <li>✅ 温润亲和</li>
-              <li>✅ 中文优化</li>
-              <li>✅ 开源免费</li>
-              <li>⚠️ 文件较大</li>
+              <li>正文主字体</li>
+              <li>温润亲和</li>
+              <li>中文优化</li>
+              <li>通过 BootCDN 加载</li>
+              <li>文件比英文字体大</li>
             </ul>
           </div>
           <div class="comparison-item">
-            <h4>思源宋体</h4>
+            <h4>系统字体</h4>
             <ul>
-              <li>✅ 传统优雅</li>
-              <li>✅ 阅读性强</li>
-              <li>✅ Google支持</li>
-              <li>✅ 多语言</li>
-              <li>⚠️ 风格传统</li>
+              <li>无需网络请求</li>
+              <li>速度最快</li>
+              <li>各系统观感不同</li>
+              <li>作为字体加载兜底</li>
+              <li>保证页面立即可读</li>
             </ul>
           </div>
           <div class="comparison-item">
             <h4>Inter</h4>
             <ul>
-              <li>✅ UI专用</li>
-              <li>✅ 现代简洁</li>
-              <li>✅ 英文优秀</li>
-              <li>✅ 小尺寸清晰</li>
-              <li>❌ 中文支持差</li>
+              <li>UI 专用</li>
+              <li>现代简洁</li>
+              <li>英文优秀</li>
+              <li>小尺寸清晰</li>
+              <li>不负责中文正文</li>
             </ul>
           </div>
         </div>
@@ -85,7 +85,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       <div class="recommendation">
         <h3>推荐设置</h3>
-        <p>基于博客的"煮茶"主题和温润风格，推荐使用 <strong>露霞文楷</strong> 作为主字体，配合 Inter 作为UI元素字体。</p>
+        <p>正文使用 <strong>霞鹜文楷屏幕版</strong>，UI 使用 Inter Variable，加载失败时回退到系统中文字体。</p>
       </div>
     </div>
   </div>
@@ -143,15 +143,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   /* 字体样式 */
   .lxgw-wenkai {
-    font-family: "LXGW WenKai", serif;
+    font-family: "LXGW WenKai Screen", "LXGW WenKai", serif;
   }
 
-  .noto-serif {
-    font-family: "Noto Serif SC", serif;
+  .system-serif {
+    font-family: "KaiTi", "楷体", "STKaiti", "华文楷体", serif;
   }
 
   .inter-font {
-    font-family: "Inter", sans-serif;
+    font-family: "InterVariable", "Inter", sans-serif;
   }
 
   /* 对比区域 */
