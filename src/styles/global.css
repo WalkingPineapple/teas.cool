@@ -4,10 +4,10 @@
   --bright: #F2CF6B; --rind: #21372F; --on-bright: #21372F;
   --card: #FFFDF7; --sand: #F3DFA2; --callout-line: #D8CDA8; --spine: #21372F; --crown: #21372F;
   color-scheme: light;
-  /* 混排字体栈：拉丁字母走 Newsreader（有真斜体），汉字落到思源宋体；后面是系统字体兜底 */
-  --serif: 'Newsreader Variable', 'Noto Serif SC Variable', 'Source Han Serif SC', 'Songti SC', 'SimSun', Georgia, serif;
-  --sans: 'Instrument Sans Variable', 'Noto Sans SC Variable', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
-  --mono: 'JetBrains Mono', 'Noto Sans SC Variable', 'Microsoft YaHei', ui-monospace, monospace;
+  /* 混排字体栈：拉丁走 Newsreader（真斜体），汉字落到思源宋体 400；界面无衬线用系统中文字体（省 webfont 体积） */
+  --serif: 'Newsreader Variable', 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'SimSun', Georgia, serif;
+  --sans: 'Instrument Sans Variable', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'PingFang SC', 'Microsoft YaHei', ui-monospace, monospace;
 }
 html[data-theme='dark'] {
   --paper: #141C19; --ink: #E9E6D8; --muted: #A6B0A6; --line: #303B35; --tint: #1F2925;

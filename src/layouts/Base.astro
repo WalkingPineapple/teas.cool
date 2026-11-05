@@ -1,13 +1,15 @@
 ---
-import 'katex/dist/katex.min.css';
-// 字体自托管（@fontsource）：不依赖 Google Fonts，构建时打进 dist
+// 字体自托管（@fontsource）：不依赖 Google Fonts，构建时打进 dist。
+// 体积策略：中文 webfont 只保留正文宋体 400（内容字体）；界面无衬线交给系统字体（雅黑/苹方），
+// 拉丁字体用 variable（一套文件覆盖全部字重，且有真斜体）。
 import '@fontsource-variable/newsreader/wght.css';
 import '@fontsource-variable/newsreader/wght-italic.css';
 import '@fontsource-variable/instrument-sans/wght.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
-import '@fontsource-variable/noto-serif-sc';
-import '@fontsource-variable/noto-sans-sc';
+import '@fontsource/noto-serif-sc/400.css';
+// 公式样式全站共享（brotli 后仅几 KB，不值得按页拆分）
+import 'katex/dist/katex.min.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import site from '../../site.config.mjs';
