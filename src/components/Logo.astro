@@ -1,0 +1,10 @@
+---
+const { dark = false, id = 'logo' } = Astro.props;
+---
+<svg aria-hidden="true" width="30" height="40" viewBox="0 0 40 54">
+  <defs><clipPath id={id}><ellipse cx="20" cy="34" rx="14" ry="18"></ellipse></clipPath></defs>
+  <path fill={dark ? '#8FC7A0' : 'var(--crown)'} d="M20 18C16 12 16 6 20 1C24 6 24 12 20 18ZM19 18C13 16 9 11 8 5C13 7 17 11 19 18ZM21 18C27 16 31 11 32 5C27 7 23 11 21 18Z"></path>
+  <ellipse cx="20" cy="34" rx="14" ry="18" fill="#C69A3D"></ellipse>
+  <path clip-path={`url(#${id})`} stroke="#7A5209" stroke-width="1.5" fill="none" d="M0 22L40 58M0 34L32 62M8 12L44 46M20 10L46 34M40 22L0 58M40 34L8 62M32 12L-4 46M20 10L-6 34"></path>
+  <path fill="#F3DFA2" d="M34 34C27 37 20 43 16 51.6C26 53.6 34.5 45 34 34Z"></path>
+</svg>

@@ -1,211 +1,26 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import Base from '../layouts/Base.astro';
+const work = [1, 2, 3, 4];
 ---
-
-<BaseLayout title="关于">
-  <div class="about-page">
-    <div class="container-narrow">
-      <header class="about-hero">
-        <img src="/favicon.svg" alt="" width="52" height="52" />
-        <span class="eyebrow">About</span>
-        <h1>展开讲讲</h1>
-        <p>还没想好要怎么介绍自己，先把能确定的几句放在这里。</p>
-      </header>
-
-      <main class="about-prose">
-        <section class="profile-section">
-          <h2>关于我</h2>
-          <ol class="about-list">
-            <li>爱聊天。</li>
-            <li>爱吐槽。</li>
-            <li>话多。</li>
-            <li>疑心重。</li>
-            <li>我是一个 ENFP。</li>
-            <li>某传统行业赛博打灰。</li>
-            <li>偶尔认真。</li>
-            <li>经常想跑路。</li>
-            <li>大概还算善良，目前应该还没有变成坏人。</li>
-          </ol>
-        </section>
-
-        <section>
-          <h2>这个地方放什么</h2>
-          <p>
-            工作里的碎碎念，路上的见闻，技术上绕过的坑，
-            还有一些当时想了半天、后来又觉得没那么重要的话。
-          </p>
-          <p>
-            想起来就写，想不起来就算了。反正日子已经够忙，写东西就别再太像上班。
-          </p>
-        </section>
-
-        <section>
-          <h2>一些想法</h2>
-          <blockquote>我常常将人看做机器，他输出了什么，常常取决于他输入了什么。</blockquote>
-          <blockquote>屏蔽垃圾输入，寻求优质信息源，才能输出优质信息。</blockquote>
-          <blockquote>看到这，你已经被我的观念输入一遍了。</blockquote>
-        </section>
-
-        <section>
-          <h2>胡说八道</h2>
-          <p>
-            再缜密的计划有时也会失败，你想要做什么事并不意味着你能够做到。
-            生活一团乱麻，成功完全随缘，自信才是最重要的。
-          </p>
-        </section>
-
-        <section class="contact-section">
-          <h2>联系</h2>
-          <div class="contact-links">
-            <a href="https://t.me/oooooooorange" target="_blank" rel="noopener">Telegram</a>
-            <a href="mailto:inclu@sohu.com">邮箱</a>
-            <a href="/rss.xml">RSS</a>
-          </div>
-        </section>
-      </main>
-    </div>
-  </div>
-</BaseLayout>
-
-<style>
-  .about-page {
-    padding: var(--space-16) 0 0;
-  }
-
-  .about-hero {
-    margin-bottom: var(--space-12);
-    padding-bottom: var(--space-8);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .about-hero img {
-    width: 3.25rem;
-    height: 3.25rem;
-    margin-bottom: var(--space-6);
-    opacity: 0.78;
-  }
-
-  .about-hero h1 {
-    margin: var(--space-3) 0 var(--space-5);
-    color: var(--color-primary);
-    font-size: clamp(2.4rem, 8vw, 4.5rem);
-  }
-
-  .about-hero p {
-    color: var(--color-text-secondary);
-    font-size: var(--text-xl);
-    line-height: 1.7;
-  }
-
-  .about-prose {
-    display: grid;
-    gap: var(--space-10);
-    font-size: var(--text-lg);
-    line-height: 1.9;
-  }
-
-  .about-prose section {
-    padding-bottom: var(--space-10);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .about-prose section:last-child {
-    border-bottom: 0;
-  }
-
-  .about-prose h2 {
-    margin-bottom: var(--space-4);
-    color: var(--color-text-primary);
-    font-size: var(--text-2xl);
-  }
-
-  .profile-section h2 {
-    margin-bottom: var(--space-6);
-  }
-
-  .about-list {
-    counter-reset: about;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 var(--space-8);
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--color-border);
-    list-style: none;
-  }
-
-  .about-list li {
-    counter-increment: about;
-    display: grid;
-    grid-template-columns: 2.25rem 1fr;
-    gap: var(--space-4);
-    align-items: start;
-    padding: var(--space-4) 0;
-    border-bottom: 1px solid var(--color-border);
-    color: var(--color-text-primary);
-    line-height: 1.75;
-  }
-
-  .about-list li::before {
-    content: counter(about, decimal-leading-zero);
-    color: var(--color-accent);
-    font-family: var(--font-family-ui);
-    font-size: var(--text-xs);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    line-height: 2.25;
-  }
-
-  .about-prose p {
-    margin-bottom: var(--space-5);
-  }
-
-  .about-prose blockquote {
-    margin: var(--space-5) 0;
-    padding-left: var(--space-5);
-    border-left: 3px solid var(--color-accent);
-    color: var(--color-text-secondary);
-    font-style: italic;
-  }
-
-  .contact-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-  }
-
-  .contact-links a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.5rem;
-    padding: 0 var(--space-4);
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
-    color: var(--color-text-secondary);
-    font-family: var(--font-family-ui);
-    font-size: var(--text-sm);
-    font-weight: 600;
-  }
-
-  .contact-links a:hover {
-    color: var(--color-paper);
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-  }
-
-  @media (max-width: 640px) {
-    .about-prose {
-      font-size: var(--text-base);
-      line-height: 1.85;
-    }
-
-    .about-list {
-      grid-template-columns: 1fr;
-      gap: 0;
-    }
-
-    .about-list li {
-      grid-template-columns: 2rem 1fr;
-    }
-  }
-</style>
+<Base title="关于">
+  <main class="wrap">
+    <div class="page-head"><h1>你好，我是 <em>Pineapple。</em></h1><p class="lede">[在这里写下你的介绍：你是谁，这个站点用来做什么。]</p></div>
+    <section class="anatomy" aria-labelledby="anatomy">
+      <div class="anatomy-art" aria-hidden="true"><div><div></div></div></div>
+      <div class="anatomy-list">
+        <h2 id="anatomy" class="section-title">一只菠萝的构造</h2>
+        <div><h3>果皮</h3><p>[别人第一眼注意到的你。]</p></div>
+        <div><h3>果肉</h3><p>[你真正在乎并投入时间的事。]</p></div>
+        <div><h3>果芯</h3><p>[无论怎样都不会变的你。]</p></div>
+      </div>
+    </section>
+    <section class="home-section" aria-labelledby="past">
+      <h2 id="past" class="section-title">做过的事</h2>
+      <div class="work-grid">{work.map(() => <article><p class="mono">[年份]</p><h3>[项目或角色]</h3><p>[一句话简介。]</p></article>)}</div>
+    </section>
+    <section class="home-section" aria-labelledby="now">
+      <h2 id="now" class="section-title">最近着迷于</h2>
+      <div class="pills"><span>[话题]</span><span>[话题]</span><span>[话题]</span><span>[话题]</span></div>
+    </section>
+  </main>
+</Base>

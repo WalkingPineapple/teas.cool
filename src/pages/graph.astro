@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import Spiral from '../components/Spiral.astro';
+import { publicNotes } from '../lib/content';
+const notes = await publicNotes();
+---
+<Base title="图谱">
+  <main class="wrap">
+    <div class="page-head"><h1>每只眼都是一篇<em>笔记</em></h1></div>
+    <div class="spiral-section">
+      <div><p class="lede" style="margin:0">菠萝的眼睛按螺旋生长，笔记也一样——最新的在最中心。</p><p id="spiral-read" class="mono spiral-read">把鼠标悬停在一只眼睛上，凑近看看。</p></div>
+      <div><Spiral notes={notes} /></div>
+    </div>
+  </main>
+</Base>

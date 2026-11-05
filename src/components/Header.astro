@@ -1,0 +1,18 @@
+---
+import Logo from './Logo.astro';
+import site from '../../site.config.mjs';
+const { dark = false } = Astro.props;
+const here = Astro.url.pathname;
+const items = [['写作', '/writing/'], ['读书', '/reading/'], ['旅行', '/travel/'], ['周报', '/weekly/'], ['关于', '/about/']];
+---
+<header class="site-head">
+  <a class="brand" href="/"><Logo dark={dark} />{site.title}</a>
+  <div class="head-right">
+    <nav class="site-nav" aria-label="主导航">
+      {items.map(([label, href]) => <a href={href} aria-current={here.startsWith(href) ? 'page' : undefined}>{label}</a>)}
+    </nav>
+    <button type="button" class="theme-toggle" data-theme-toggle aria-label="切换深浅模式">
+      <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle><path fill="currentColor" d="M12 3a9 9 0 0 1 0 18Z"></path></svg>
+    </button>
+  </div>
+</header>

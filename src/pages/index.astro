@@ -1,165 +1,92 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import PostCard from "../components/blog/PostCard.astro";
-import Button from "../components/ui/Button.astro";
-
-const allPosts = await Astro.glob("../pages/posts/*.md");
-allPosts.sort((a, b) => Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate));
-
-const recentPosts = allPosts.slice(0, 7);
-const latestPost = recentPosts[0];
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import EntryList from '../components/EntryList.astro';
+import Spiral from '../components/Spiral.astro';
+import { noteUrl, ofType, publicNotes } from '../lib/content';
+const notes = await publicNotes();
+const books = (await ofType('reading')).slice(0, 7);
+const trip = (await ofType('travel'))[0];
 ---
-
-<BaseLayout>
-  <section class="home-hero">
-    <div class="container-narrow">
-      <h1>直接开摆</h1>
-      <p class="hero-subtitle">闲来拈花随风笑，煮茶不问世间嚣。</p>
-      <p class="hero-text">
-        To be a sailor of the world, bound for all ports.
-      </p>
-      {latestPost && (
-        <a class="latest-note" href={latestPost.url}>
-          <span>最近一篇</span>
-          <strong>{latestPost.frontmatter.title}</strong>
+<Base hideHeader={true}>
+  <div class="hero" id="hero">
+    <div class="wrap">
+      <Header dark={true} />
+      <section class="hero-copy">
+        <h1>Under<br />the <em>Rind</em></h1>
+        <p>你好，我是 Pineapple。我在计算机行业工作，但真正驱动我的是「东西到底是怎么运作的」这份好奇。这里是我的互联网角落：笔记、读书、旅行故事，以及每周抓住我注意力的东西。</p>
+        <button type="button" class="peel-btn" id="peel">剥开看看</button>
+      </section>
+    </div>
+    <div class="flesh" id="flesh" aria-hidden="true">
+      <div class="wrap">
+        <div class="flesh-top"><span>what_is_actually_going_on.md</span><span>?!?!?!?</span></div>
+        <div class="flesh-big">等等，<br />这到底<em>怎么</em>运作的？</div>
+        <div class="flesh-tags"><span>大语言模型</span><span>智能体</span><span>量化交易</span><span>咖啡</span><span>书</span><span>菠萝</span><span>下一个是什么</span></div>
+      </div>
+    </div>
+  </div>
+  <main class="wrap">
+    <section class="home-section" aria-labelledby="fresh">
+      <div class="home-head"><h2 id="fresh">新鲜切面</h2><a href="/writing/">ls -lt /everything</a></div>
+      <EntryList notes={notes.slice(0, 4)} />
+    </section>
+    <section class="home-section spiral-section" aria-labelledby="eyes">
+      <div>
+        <div class="home-head" style="margin-bottom:0"><h2 id="eyes">每只眼都是一篇笔记</h2></div>
+        <p class="lede">菠萝的眼睛按螺旋生长，这里的笔记也一样。</p>
+        <p id="spiral-read" class="mono spiral-read">把鼠标悬停在一只眼睛上，凑近看看。</p>
+        <div class="legend">
+          <a href="/writing/"><i style="background:var(--ink)"></i>写作</a>
+          <a href="/reading/"><i style="background:var(--honey)"></i>读书</a>
+          <a href="/travel/"><i style="background:#F3DFA2"></i>旅行</a>
+        </div>
+      </div>
+      <div><Spiral notes={notes} /></div>
+    </section>
+    {books.length > 0 && (
+      <section class="home-section" aria-labelledby="shelf">
+        <div class="home-head"><h2 id="shelf">书架</h2><a href="/reading/">全部书目</a></div>
+        <div class="shelf">{books.map((b) => <a class="spine" href={noteUrl(b)}>{b.data.title}</a>)}</div>
+      </section>
+    )}
+    <section class="home-section home-pair">
+      {trip && (
+        <a class="postcard" href={noteUrl(trip)}>
+          <span><span class="mono">明信片 · 来自</span><strong>{trip.data.place ?? trip.data.title}</strong>{trip.data.summary && <p>{trip.data.summary}</p>}</span>
+          <span class="stamp" aria-hidden="true">邮票</span>
         </a>
       )}
-    </div>
-  </section>
-
-  <section class="home-feed">
-    <div class="container">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">Notes</span>
-          <h2>最近写下的</h2>
-        </div>
-        <a href="/archive" class="muted-link">全部文章</a>
+      <div class="gate">
+        <h2>周报 <em>还藏在瓜皮之下</em></h2>
+        <p style="margin:26px 0 18px;font-size:19px">每周的笔记藏在密码后面。</p>
+        <a class="peel-link" href="/weekly/">前往周报</a>
       </div>
-
-      <div class="post-list">
-        {recentPosts.map((post) => (
-          <PostCard
-            title={post.frontmatter.title}
-            href={post.url}
-            description={post.frontmatter.description || post.compiledContent().replace(/<[^>]*>/g, '').slice(0, 120) + '...'}
-            date={post.frontmatter.pubDate}
-            tags={post.frontmatter.tags || []}
-            content={post.compiledContent()}
-          />
-        ))}
-      </div>
-
-      <div class="feed-action">
-        <Button href="/archive" variant="secondary">翻完整个目录</Button>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-about surface-band">
-    <div class="container-narrow">
-      <span class="eyebrow">About</span>
-      <h2>闲敲棋子落灯花。</h2>
-      <p>最是人间留不住，朱颜辞镜花辞树。</p>
-      <Button href="/about" variant="primary">再多看一点</Button>
-    </div>
-  </section>
-</BaseLayout>
-
-<style>
-  .home-hero {
-    padding: clamp(4rem, 11vw, 8rem) 0 var(--section-spacing);
-  }
-
-  .home-hero h1 {
-    margin-bottom: var(--space-4);
-    font-size: clamp(3rem, 10vw, 5.75rem);
-    line-height: 1.05;
-    color: var(--color-primary);
-  }
-
-  .hero-subtitle {
-    margin-bottom: var(--space-6);
-    color: var(--color-text-primary);
-    font-size: var(--text-2xl);
-    line-height: 1.5;
-  }
-
-  .hero-text {
-    max-width: 38rem;
-    margin-bottom: var(--space-8);
-    font-size: var(--text-lg);
-  }
-
-  .latest-note {
-    display: grid;
-    gap: var(--space-1);
-    padding: var(--space-4) 0 0;
-    border-top: 1px solid var(--color-border);
-    color: var(--color-text-secondary);
-    text-decoration: none;
-  }
-
-  .latest-note span {
-    color: var(--color-text-muted);
-    font-family: var(--font-family-ui);
-    font-size: var(--text-xs);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .latest-note strong {
-    color: var(--color-text-primary);
-    font-size: var(--text-xl);
-    transition: color var(--transition-fast);
-  }
-
-  .latest-note:hover strong {
-    color: var(--color-primary);
-  }
-
-  .home-feed {
-    padding: 0 0 var(--section-spacing);
-  }
-
-  .section-heading {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: var(--space-6);
-    margin-bottom: var(--space-6);
-  }
-
-  .section-heading h2 {
-    margin: var(--space-2) 0 0;
-    font-size: var(--text-3xl);
-  }
-
-  .feed-action {
-    margin-top: var(--space-8);
-    text-align: center;
-  }
-
-  .home-about {
-    padding: var(--section-spacing) 0;
-  }
-
-  .home-about h2 {
-    margin-top: var(--space-3);
-    font-size: var(--text-3xl);
-  }
-
-  .home-about p {
-    margin-bottom: var(--space-8);
-    font-size: var(--text-lg);
-  }
-
-  @media (max-width: 640px) {
-    .section-heading {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-  }
-</style>
+    </section>
+  </main>
+  <script>
+    const hero = document.getElementById('hero');
+    const flesh = document.getElementById('flesh');
+    const button = document.getElementById('peel');
+    let open = false;
+    const paint = (x = 72, y = 42) => {
+      flesh.style.clipPath = open ? 'circle(160% at 72% 42%)' : `circle(150px at ${x}% ${y}%)`;
+    };
+    const move = (point) => {
+      if (open) return;
+      const r = hero.getBoundingClientRect();
+      paint(((point.clientX - r.left) / r.width) * 100, ((point.clientY - r.top) / r.height) * 100);
+    };
+    paint();
+    hero.addEventListener('mousemove', move);
+    hero.addEventListener('touchmove', (e) => e.touches[0] && move(e.touches[0]), { passive: true });
+    button.addEventListener('click', () => {
+      open = !open;
+      button.textContent = open ? '把瓜皮盖回去' : '剥开看看';
+      // Keep the button reachable above the opened flesh.
+      button.style.position = 'relative';
+      button.style.zIndex = '5';
+      paint();
+    });
+  </script>
+</Base>

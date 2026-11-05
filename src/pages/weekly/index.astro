@@ -1,0 +1,43 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { formatDate, weeklyNotes } from '../../lib/content';
+const reports = await Promise.all(
+  (await weeklyNotes()).map(async (note) => ({ note, Content: (await render(note)).Content })),
+);
+---
+<Base title="周报" noindex={true}>
+  <main class="wrap">
+    <div class="page-head narrow">
+      <form id="weekly-form" class="gate">
+        <h1>周报 <em>还藏在瓜皮之下</em></h1>
+        <label for="weekly-password">密码</label>
+        <div class="gate-row">
+          <input id="weekly-password" type="password" autocomplete="current-password" required />
+          <button type="submit">剥开</button>
+        </div>
+        <p id="weekly-error" class="gate-error" role="alert" hidden>这个密码不对。</p>
+      </form>
+    </div>
+    <div id="weekly-content" class="narrow" tabindex="-1"></div>
+    <weekly-secret hidden>
+      <h1 style="margin:48px 0 24px">周报</h1>
+      <nav aria-label="周报目录" style="margin-bottom:56px">
+        {reports.map(({ note }) => (
+          <a class="entry" href={`#${note.id}`}>
+            <span class="mono">{formatDate(note.data.date)}</span>
+            <div><strong>{note.data.title}</strong></div>
+          </a>
+        ))}
+      </nav>
+      {reports.map(({ note, Content }) => (
+        <article id={note.id} style="padding-top:40px">
+          <p class="mono">{formatDate(note.data.date)}</p>
+          <h2 style="margin:12px 0 24px;font-size:44px;line-height:1.05;font-weight:400">{note.data.title}</h2>
+          <div class="prose"><Content /></div>
+        </article>
+      ))}
+    </weekly-secret>
+  </main>
+  <script is:inline src="/weekly.js" defer></script>
+</Base>

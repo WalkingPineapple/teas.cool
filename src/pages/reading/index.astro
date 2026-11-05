@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import { formatDate, noteUrl, ofType } from '../../lib/content';
+const books = await ofType('reading');
+---
+<Base title="读书">
+  <main class="wrap">
+    <div class="page-head"><h1>书架</h1><p class="lede">读过的书，和留下的笔记。</p></div>
+    <div class="shelf">{books.map((b) => <a class="spine" href={noteUrl(b)}>{b.data.title}</a>)}</div>
+    <div style="margin-top:48px">
+      {books.map((b) => (
+        <a class="entry" href={noteUrl(b)}>
+          <span class="mono">{formatDate(b.data.date)}</span>
+          <div><strong>{b.data.title}</strong><p>{b.data.author}{b.data.rating != null && ` · ${b.data.rating} / 5`}</p></div>
+        </a>
+      ))}
+    </div>
+  </main>
+</Base>

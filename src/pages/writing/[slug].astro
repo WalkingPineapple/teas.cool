@@ -1,0 +1,10 @@
+---
+import NotePage from '../../components/NotePage.astro';
+import { ofType } from '../../lib/content';
+export async function getStaticPaths() {
+  const notes = await ofType('writing', 'reflection');
+  return notes.map((note) => ({ params: { slug: note.id }, props: { note } }));
+}
+const { note } = Astro.props;
+---
+<NotePage note={note} />

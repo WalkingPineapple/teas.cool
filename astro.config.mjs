@@ -1,20 +1,17 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import site from './site.config.mjs';
+import remarkObsidian from './src/lib/remark-obsidian.mjs';
 
-import { SITE_URL } from './src/consts';
-
-// https://astro.build/config
 export default defineConfig({
-  site: SITE_URL,
+  site: site.url,
+  trailingSlash: 'always',
+  integrations: [sitemap({ filter: (page) => !page.includes('/weekly') })],
   markdown: {
-    syntaxHighlight: 'shiki',
-    shikiConfig: {
-      theme: 'github-light',
-      themes: {
-        light: 'github-light',
-        dark: 'github-dark',
-      },
-      wrap: true,
-      transformers: [],
-    },
+    remarkPlugins: [remarkMath, remarkObsidian],
+    rehypePlugins: [rehypeKatex],
+    shikiConfig: { themes: { light: 'github-light', dark: 'github-dark' } },
   },
 });

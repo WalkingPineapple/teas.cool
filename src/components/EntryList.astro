@@ -1,0 +1,10 @@
+---
+import { formatDate, noteUrl, typeLabel } from '../lib/content';
+const { notes } = Astro.props;
+---
+{notes.map((n) => (
+  <a class="entry" href={noteUrl(n)}>
+    <span class="mono">{typeLabel[n.data.type]} / {formatDate(n.data.date)}</span>
+    <div><strong>{n.data.title}</strong>{n.data.summary && <p>{n.data.summary}</p>}</div>
+  </a>
+))}

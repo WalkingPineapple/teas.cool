@@ -1,0 +1,34 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { backlinks, formatDate, noteUrl, readingTime, typeLabel } from '../lib/content';
+const { note } = Astro.props;
+const { Content } = await render(note);
+const links = await backlinks(note);
+const d = note.data;
+const hasImage = fs.existsSync(path.resolve('public/og', `${note.id}.png`));
+const image = hasImage ? `/og/${encodeURIComponent(note.id)}.png` : undefined;
+---
+<Base title={d.title} description={d.summary} image={image} ogType="article">
+  <main class="wrap">
+    <div class="narrow">
+      <div class="page-head">
+        <p class="mono" style="margin:0 0 20px">{typeLabel[d.type]} / {formatDate(d.date)} / {readingTime(note.body)} 分钟</p>
+        <h1>{d.title}</h1>
+        {d.author && <p class="bookrow" style="margin-top:18px">{d.author}{d.rating != null && ` · ${d.rating} / 5`}</p>}
+        {d.place && <p class="bookrow" style="margin-top:18px">{d.place}</p>}
+      </div>
+      <article class="prose"><Content /></article>
+      {links.length > 0 && (
+        <section class="linked" aria-labelledby="linked">
+          <h2 id="linked">相连的笔记</h2>
+          <div class="card-grid">
+            {links.map((n) => <a href={noteUrl(n)}><span class="mono">{n.data.type}</span><strong>{n.data.title}</strong></a>)}
+          </div>
+        </section>
+      )}
+    </div>
+  </main>
+</Base>

@@ -1,0 +1,111 @@
+---
+import 'katex/dist/katex.min.css';
+// 字体自托管（@fontsource）：不依赖 Google Fonts，构建时打进 dist
+import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/newsreader/wght-italic.css';
+import '@fontsource-variable/instrument-sans/wght.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource-variable/noto-serif-sc';
+import '@fontsource-variable/noto-sans-sc';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import site from '../../site.config.mjs';
+const { title, description = site.description, noindex = false, hideHeader = false, image = '/og/default.png', ogType = 'website' } = Astro.props;
+const fullTitle = title ? `${title} | ${site.title}` : site.title;
+const pageUrl = new URL(Astro.url.pathname, site.url).href;
+const imageUrl = new URL(image, site.url).href;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <script is:inline>
+      (() => {
+        let theme;
+        try { theme = localStorage.getItem('utr-theme'); } catch {}
+        if (theme !== 'light' && theme !== 'dark') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:site_name" content={site.title} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title ?? site.title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    {!hideHeader && <div class="wrap"><Header /></div>}
+    <slot />
+    <footer class="site-foot"><div class="wrap row">
+      <em>如果你是个善良的人，我们一定会合得来。</em>
+      <div class="foot-links"><a href="/rss.xml">rss</a><a href="/graph/">图谱</a><a href="/about/">关于</a></div>
+    </div></footer>
+    <div id="preview-card" class="preview-card" hidden></div>
+    <script>
+      const renderMermaid = (redraw = false) => {
+        const nodes = [...document.querySelectorAll('pre.mermaid')].filter((n) => redraw || !n.hasAttribute('data-processed'));
+        if (!nodes.length) return;
+        for (const node of nodes) {
+          node.dataset.source ??= node.textContent;
+          node.textContent = node.dataset.source;
+          node.removeAttribute('data-processed');
+        }
+        import('mermaid').then(({ default: mermaid }) => {
+          const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'neutral';
+          mermaid.initialize({ startOnLoad: false, theme });
+          mermaid.run({ nodes });
+        });
+      };
+      renderMermaid();
+      document.addEventListener('weekly:ready', () => renderMermaid());
+
+      document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = next;
+          try { localStorage.setItem('utr-theme', next); } catch {}
+          renderMermaid(true);
+        });
+      });
+
+      const card = document.getElementById('preview-card');
+      let previews;
+      const load = () => (previews ??= fetch('/previews.json').then((r) => r.json()).catch(() => ({})));
+      const show = async (link) => {
+        const data = (await load())[link.dataset.note];
+        if (!data || !card) return;
+        card.replaceChildren();
+        const type = document.createElement('span');
+        type.className = 'mono';
+        type.textContent = data.type;
+        const title = document.createElement('strong');
+        title.textContent = data.title;
+        const text = document.createElement('p');
+        text.textContent = data.summary;
+        card.append(type, title, text);
+        const box = link.getBoundingClientRect();
+        card.style.left = `${Math.max(20, Math.min(box.left, innerWidth - 440)) + scrollX}px`;
+        card.style.top = `${box.bottom + scrollY + 10}px`;
+        card.hidden = false;
+      };
+      const isLink = (t) => t instanceof Element && t.closest('a.wikilink[data-note]');
+      const hide = (e) => { if (isLink(e.target) && card) card.hidden = true; };
+      document.addEventListener('mouseover', (e) => { const l = isLink(e.target); if (l) show(l); });
+      document.addEventListener('focusin', (e) => { const l = isLink(e.target); if (l) show(l); });
+      document.addEventListener('mouseout', hide);
+      document.addEventListener('focusout', hide);
+    </script>
+  </body>
+</html>
