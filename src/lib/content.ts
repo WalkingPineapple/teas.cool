@@ -29,6 +29,12 @@ export const formatDate = (d: Date) =>
 export const readingTime = (body = '') =>
   Math.max(1, Math.round(body.trim().split(/\s+/).length / 220));
 
+/** 标签转 URL：英文转小写连字符，非英文字母保留 */
+export const tagSlug = (tag: string) =>
+  String(tag).trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '');
+
+export const tagUrl = (tag: string) => `/tags/${tagSlug(tag)}/`;
+
 export async function backlinks(note: any) {
   const names = new Set(
     [note.id, note.data.title, note.data.source, ...note.data.aliases].filter(Boolean).map(norm),

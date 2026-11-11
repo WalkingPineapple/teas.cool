@@ -14,15 +14,15 @@ const reports = await Promise.all(
         <label for="weekly-password">密码</label>
         <div class="gate-row">
           <input id="weekly-password" type="password" autocomplete="current-password" required />
-          <button type="submit">剥开</button>
+          <button type="submit" class="btn">剥开</button>
         </div>
         <p id="weekly-error" class="gate-error" role="alert" hidden>这个密码不对。</p>
       </form>
     </div>
     <div id="weekly-content" class="narrow" tabindex="-1"></div>
     <weekly-secret hidden>
-      <h1 style="margin:48px 0 24px">周报</h1>
-      <nav aria-label="周报目录" style="margin-bottom:56px">
+      <h1 class="weekly-top">周报</h1>
+      <nav aria-label="周报目录" class="weekly-list">
         {reports.map(({ note }) => (
           <a class="entry" href={`#${note.id}`}>
             <span class="mono">{formatDate(note.data.date)}</span>
@@ -31,9 +31,9 @@ const reports = await Promise.all(
         ))}
       </nav>
       {reports.map(({ note, Content }) => (
-        <article id={note.id} style="padding-top:40px">
+        <article id={note.id} class="weekly-report">
           <p class="mono">{formatDate(note.data.date)}</p>
-          <h2 style="margin:12px 0 24px;font-size:44px;line-height:1.05;font-weight:400">{note.data.title}</h2>
+          <h2>{note.data.title}</h2>
           <div class="prose"><Content /></div>
         </article>
       ))}

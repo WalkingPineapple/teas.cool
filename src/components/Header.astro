@@ -1,12 +1,13 @@
 ---
 import Logo from './Logo.astro';
 import site from '../../site.config.mjs';
-const { dark = false } = Astro.props;
+const { dark = false, logoId = 'logo' } = Astro.props;
 const here = Astro.url.pathname;
-const items = [['写作', '/writing/'], ['读书', '/reading/'], ['旅行', '/travel/'], ['周报', '/weekly/'], ['关于', '/about/']];
+// 周报是私密内容，不进主导航，放在页脚。
+const items = [['写作', '/writing/'], ['读书', '/reading/'], ['旅行', '/travel/'], ['关于', '/about/']];
 ---
 <header class="site-head">
-  <a class="brand" href="/"><Logo dark={dark} />{site.title}</a>
+  <a class="brand" href="/"><Logo dark={dark} id={logoId} />{site.title}</a>
   <div class="head-right">
     <nav class="site-nav" aria-label="主导航">
       {items.map(([label, href]) => <a href={href} aria-current={here.startsWith(href) ? 'page' : undefined}>{label}</a>)}

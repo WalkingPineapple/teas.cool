@@ -1,31 +1,32 @@
 ---
 import { noteUrl } from '../lib/content';
 const { notes } = Astro.props;
-const COUNT = 144;
+// The spiral grows with the notes: always the next Fibonacci size with room to spare.
+const SIZES = [21, 34, 55, 89, 144, 233, 377, 610, 987];
+const count = SIZES.find((size) => size >= notes.length * 1.5) ?? notes.length;
+const step = 44 / Math.sqrt(count);
 const groups = { writing: 'writing', reflection: 'writing', reading: 'reading', travel: 'travel' };
-const eyes = Array.from({ length: Math.max(COUNT, notes.length) }, (_, i) => {
+const eyes = Array.from({ length: count }, (_, i) => {
   const n = i + 1;
-  const radius = (46 * Math.sqrt(n)) / Math.sqrt(Math.max(COUNT, notes.length));
+  const radius = step * Math.sqrt(n);
   const angle = n * 2.39996;
-  return {
-    left: `${(50 + radius * Math.cos(angle)).toFixed(2)}%`,
-    top: `${(50 + radius * Math.sin(angle)).toFixed(2)}%`,
-    size: `${(10 + Math.sqrt(n) * 1.1).toFixed(1)}px`,
-    note: notes[i],
-  };
+  const size = step * (0.62 + 0.5 * Math.sqrt(n / count));
+  const left = (50 + radius * Math.cos(angle)).toFixed(2);
+  const top = (50 + radius * Math.sin(angle)).toFixed(2);
+  return { style: `left:${left}%;top:${top}%;width:${size.toFixed(2)}%`, note: notes[i] };
 });
 ---
 <div class="spiral" data-spiral>
   {eyes.map((e) => e.note
-    ? <a class={`eye ${groups[e.note.data.type]}`} href={noteUrl(e.note)} aria-label={e.note.data.title} data-title={e.note.data.title} style={`left:${e.left};top:${e.top};width:${e.size};height:${e.size}`}></a>
-    : <span class="eye empty" aria-hidden="true" style={`left:${e.left};top:${e.top};width:${e.size};height:${e.size}`}></span>)}
+    ? <a class={`eye ${groups[e.note.data.type]}`} href={noteUrl(e.note)} aria-label={e.note.data.title} data-title={e.note.data.title} style={e.style}></a>
+    : <span class="eye empty" aria-hidden="true" style={e.style}></span>)}
 </div>
 <script>
+  const out = document.getElementById('spiral-read');
+  // Touch screens can't hover, so say what a tap does instead.
+  if (out && matchMedia('(hover: none)').matches) out.textContent = '点一只眼睛，打开那篇笔记。';
   document.querySelectorAll('[data-spiral] a').forEach((a) => {
-    const show = () => {
-      const out = document.getElementById('spiral-read');
-      if (out) out.textContent = a.getAttribute('data-title');
-    };
+    const show = () => { if (out) out.textContent = a.getAttribute('data-title'); };
     a.addEventListener('mouseenter', show);
     a.addEventListener('focus', show);
   });

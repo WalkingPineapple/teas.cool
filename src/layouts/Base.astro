@@ -52,7 +52,7 @@ const imageUrl = new URL(image, site.url).href;
     <slot />
     <footer class="site-foot"><div class="wrap row">
       <em>如果你是个善良的人，我们一定会合得来。</em>
-      <div class="foot-links"><a href="/rss.xml">rss</a><a href="/graph/">图谱</a><a href="/about/">关于</a></div>
+      <nav class="foot-links" aria-label="更多"><a href="/archive/">归档</a><a href="/graph/">图谱</a><a href="/weekly/">周报</a><a href="/rss.xml">rss</a></nav>
     </div></footer>
     <div id="preview-card" class="preview-card" hidden></div>
     <script>

@@ -60,6 +60,22 @@ The paragraph goes here.
 
 It sits in the margin on wide screens and inside the text on phones. `> [!under]` creates a "Look under the rind" fold-out.
 
+## Quotes
+
+A normal `>` quotation is set quietly, so long passages from a book stay readable. For one large pull quote, use:
+
+```markdown
+> [!pull]
+> The line you want to stand out.
+```
+
+## Tags, contents, and the archive
+
+- `tags` in a note's properties appear under the note and link to a page for each tag.
+- A note with three or more `##` headings gets an "In this note" list at the top.
+- Each note links to the older and newer note in its section.
+- `/archive/` lists every public note by year. Weekly is linked from the footer.
+
 ## Sync with Notion
 
 Sync connects **one Notion database** to **one vault folder** (`Notion` by default). It doesn't touch the rest of your vault.
@@ -109,7 +125,7 @@ Reports are encrypted in the browser page with AES-GCM and a key derived from yo
 
 ## Edit
 
-- Site name, address, and image host: `site.config.mjs`
+- Site name, address, image host, and the "currently curious about" list: `site.config.mjs`
 - About page: `src/pages/about.astro`
 - Homepage intro: `src/pages/index.astro`
-- Colors and type: `src/styles/global.css`
+- Colors, type sizes, and corner shapes: the variables at the top of `src/styles/global.css`

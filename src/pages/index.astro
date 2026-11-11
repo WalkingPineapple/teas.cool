@@ -1,92 +1,148 @@
 ---
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
+import Logo from '../components/Logo.astro';
 import EntryList from '../components/EntryList.astro';
+import Shelf from '../components/Shelf.astro';
 import Spiral from '../components/Spiral.astro';
+import site from '../../site.config.mjs';
 import { noteUrl, ofType, publicNotes } from '../lib/content';
 const notes = await publicNotes();
 const books = (await ofType('reading')).slice(0, 7);
 const trip = (await ofType('travel'))[0];
+const tripDate = trip && trip.data.date.toLocaleDateString('zh-CN', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const intro = '你好，我是 Pineapple。我在计算机行业工作，但真正驱动我的是「东西到底是怎么运作的」这份好奇。这里是我的互联网角落：笔记、读书、旅行故事，以及每周抓住我注意力的东西。';
 ---
 <Base hideHeader={true}>
   <div class="hero" id="hero">
-    <div class="wrap">
+    <div class="wrap hero-front" id="hero-front">
       <Header dark={true} />
       <section class="hero-copy">
-        <h1>Under<br />the <em>Rind</em></h1>
-        <p>你好，我是 Pineapple。我在计算机行业工作，但真正驱动我的是「东西到底是怎么运作的」这份好奇。这里是我的互联网角落：笔记、读书、旅行故事，以及每周抓住我注意力的东西。</p>
-        <button type="button" class="peel-btn" id="peel">剥开看看</button>
+        <h1 class="hero-title">Under<br />the <em>Rind</em></h1>
+        <p class="hero-lede">{intro}</p>
+        <button type="button" class="btn" id="peel" aria-expanded="false" aria-controls="flesh-inner">剥开看看</button>
       </section>
     </div>
-    <div class="flesh" id="flesh" aria-hidden="true">
-      <div class="wrap">
-        <div class="flesh-top"><span>what_is_actually_going_on.md</span><span>?!?!?!?</span></div>
+    <div class="flesh" id="flesh">
+      <!-- 放大镜里看到的：同一个首屏，反色。纯装饰。 -->
+      <div class="wrap flesh-echo" aria-hidden="true" inert>
+        <Header logoId="logo-echo" />
+        <div class="hero-copy">
+          <div class="hero-title">Under<br />the <em>Rind</em></div>
+          <p class="hero-lede">{intro}</p>
+          <span class="btn">剥开看看</span>
+        </div>
+      </div>
+      <!-- 剥开之后露出的东西。 -->
+      <div class="wrap flesh-inner" id="flesh-inner" inert>
+        <div class="flesh-top"><span>what_is_actually_going_on.md</span><button type="button" class="flesh-close" id="unpeel">把瓜皮盖回去</button></div>
         <div class="flesh-big">等等，<br />这到底<em>怎么</em>运作的？</div>
-        <div class="flesh-tags"><span>大语言模型</span><span>智能体</span><span>量化交易</span><span>咖啡</span><span>书</span><span>菠萝</span><span>下一个是什么</span></div>
+        <div class="flesh-tags">{site.curious.map((topic) => <span>{topic}</span>)}</div>
       </div>
     </div>
   </div>
   <main class="wrap">
     <section class="home-section" aria-labelledby="fresh">
-      <div class="home-head"><h2 id="fresh">新鲜切面</h2><a href="/writing/">ls -lt /everything</a></div>
+      <div class="home-head"><h2 id="fresh">新鲜切面</h2><a href="/archive/">ls -lt /everything</a></div>
       <EntryList notes={notes.slice(0, 4)} />
     </section>
     <section class="home-section spiral-section" aria-labelledby="eyes">
       <div>
-        <div class="home-head" style="margin-bottom:0"><h2 id="eyes">每只眼都是一篇笔记</h2></div>
+        <div class="home-head tight"><h2 id="eyes">每只眼都是一篇笔记</h2></div>
         <p class="lede">菠萝的眼睛按螺旋生长，这里的笔记也一样。</p>
         <p id="spiral-read" class="mono spiral-read">把鼠标悬停在一只眼睛上，凑近看看。</p>
         <div class="legend">
-          <a href="/writing/"><i style="background:var(--ink)"></i>写作</a>
-          <a href="/reading/"><i style="background:var(--honey)"></i>读书</a>
-          <a href="/travel/"><i style="background:#F3DFA2"></i>旅行</a>
+          <a href="/writing/"><i class="writing"></i>写作</a>
+          <a href="/reading/"><i class="reading"></i>读书</a>
+          <a href="/travel/"><i class="travel"></i>旅行</a>
         </div>
+        <a class="more" href="/graph/">打开完整图谱</a>
       </div>
       <div><Spiral notes={notes} /></div>
     </section>
     {books.length > 0 && (
       <section class="home-section" aria-labelledby="shelf">
         <div class="home-head"><h2 id="shelf">书架</h2><a href="/reading/">全部书目</a></div>
-        <div class="shelf">{books.map((b) => <a class="spine" href={noteUrl(b)}>{b.data.title}</a>)}</div>
+        <Shelf books={books} fill={7} />
       </section>
     )}
     <section class="home-section home-pair">
       {trip && (
         <a class="postcard" href={noteUrl(trip)}>
           <span><span class="mono">明信片 · 来自</span><strong>{trip.data.place ?? trip.data.title}</strong>{trip.data.summary && <p>{trip.data.summary}</p>}</span>
-          <span class="stamp" aria-hidden="true">邮票</span>
+          <span class="stamp" aria-hidden="true"><Logo id="logo-stamp" /><span>{tripDate}</span></span>
         </a>
       )}
       <div class="gate">
-        <h2>周报 <em>还藏在瓜皮之下</em></h2>
-        <p style="margin:26px 0 18px;font-size:19px">每周的笔记藏在密码后面。</p>
-        <a class="peel-link" href="/weekly/">前往周报</a>
+        <h2>最近<em>着迷于</em></h2>
+        <div class="pills">{site.curious.map((topic) => <span>{topic}</span>)}</div>
+        <a class="btn" href="/about/">更多关于我</a>
       </div>
     </section>
   </main>
   <script>
     const hero = document.getElementById('hero');
+    const front = document.getElementById('hero-front');
     const flesh = document.getElementById('flesh');
-    const button = document.getElementById('peel');
+    const inner = document.getElementById('flesh-inner');
+    const peel = document.getElementById('peel');
+    const unpeel = document.getElementById('unpeel');
+    // 放大镜只对鼠标有意义；触屏设备保持干净，直到剥开。
+    const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const LENS = '130px';
     let open = false;
-    const paint = (x = 72, y = 42) => {
-      flesh.style.clipPath = open ? 'circle(160% at 72% 42%)' : `circle(150px at ${x}% ${y}%)`;
+    let hovering = false;
+    let at = { x: 50, y: 50 };
+    let last = null;
+    let timer;
+
+    const clip = (radius) => { flesh.style.clipPath = `circle(${radius} at ${at.x}% ${at.y}%)`; };
+    const aim = (clientX, clientY) => {
+      const box = hero.getBoundingClientRect();
+      at = { x: ((clientX - box.left) / box.width) * 100, y: ((clientY - box.top) / box.height) * 100 };
     };
-    const move = (point) => {
-      if (open) return;
-      const r = hero.getBoundingClientRect();
-      paint(((point.clientX - r.left) / r.width) * 100, ((point.clientY - r.top) / r.height) * 100);
+    const aimAt = (el) => {
+      const box = el.getBoundingClientRect();
+      aim(box.left + box.width / 2, box.top + box.height / 2);
     };
-    paint();
-    hero.addEventListener('mousemove', move);
-    hero.addEventListener('touchmove', (e) => e.touches[0] && move(e.touches[0]), { passive: true });
-    button.addEventListener('click', () => {
-      open = !open;
-      button.textContent = open ? '把瓜皮盖回去' : '剥开看看';
-      // Keep the button reachable above the opened flesh.
-      button.style.position = 'relative';
-      button.style.zIndex = '5';
-      paint();
-    });
+
+    const setOpen = (next, event) => {
+      if (next === open) return;
+      const from = next ? peel : unpeel;
+      // 圆从点击处长出来，或缩回到点击处。键盘触发没有坐标，就用按钮自己的位置。
+      if (event && event.clientX) aim(event.clientX, event.clientY);
+      else if (!next && hovering && last) aim(last.x, last.y);
+      else aimAt(from);
+      open = next;
+      hero.classList.add('is-peeling');
+      hero.classList.toggle('is-open', open);
+      clip(open ? '150%' : hovering ? LENS : '0px');
+      // 只有可见层可以 Tab 进入或被读屏。
+      inner.inert = !open;
+      front.inert = open;
+      peel.setAttribute('aria-expanded', String(open));
+      (open ? unpeel : peel).focus({ preventScroll: true });
+      clearTimeout(timer);
+      timer = setTimeout(() => hero.classList.remove('is-peeling'), 700);
+    };
+
+    peel.addEventListener('click', (e) => setOpen(true, e));
+    unpeel.addEventListener('click', (e) => setOpen(false, e));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+    if (canHover) {
+      hero.addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        hovering = true;
+        last = { x: e.clientX, y: e.clientY };
+        if (open) return;
+        aim(e.clientX, e.clientY);
+        clip(LENS);
+      });
+      hero.addEventListener('pointerleave', () => {
+        hovering = false;
+        if (!open) clip('0px');
+      });
+    }
   </script>
 </Base>

@@ -1,0 +1,10 @@
+---
+import { noteUrl } from '../lib/content';
+// `fill` pads a short shelf with empty outlines so one book doesn't sit on a bare plank.
+const { books, fill = 0 } = Astro.props;
+const ghosts = Math.max(0, fill - books.length);
+---
+<div class="shelf">
+  {books.map((b) => <a class="spine" href={noteUrl(b)} title={b.data.title}><span>{b.data.title}</span></a>)}
+  {Array.from({ length: ghosts }, () => <span class="spine ghost" aria-hidden="true"></span>)}
+</div>

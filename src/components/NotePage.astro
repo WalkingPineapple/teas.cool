@@ -3,29 +3,57 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { backlinks, formatDate, noteUrl, readingTime, typeLabel } from '../lib/content';
+import { backlinks, formatDate, noteUrl, ofType, readingTime, tagSlug, tagUrl, typeLabel } from '../lib/content';
 const { note } = Astro.props;
-const { Content } = await render(note);
+const { Content, headings } = await render(note);
 const links = await backlinks(note);
 const d = note.data;
 const hasImage = fs.existsSync(path.resolve('public/og', `${note.id}.png`));
 const image = hasImage ? `/og/${encodeURIComponent(note.id)}.png` : undefined;
+
+// 目录只配长文：三个以上的二级标题才值得放。
+const toc = headings.filter((h) => h.depth === 2);
+// 首字下沉适合长随笔，两三行的随想就不必了。
+const dropcap = d.type === 'writing' && (note.body ?? '').length > 600;
+const tags = d.tags.filter((tag) => tagSlug(tag));
+
+// 同栏目的更新/更早笔记。列表按最新在前排序。
+const section = d.type === 'writing' || d.type === 'reflection' ? ['writing', 'reflection'] : [d.type];
+const siblings = await ofType(...section);
+const here = siblings.findIndex((n) => n.id === note.id);
+const newer = here > 0 ? siblings[here - 1] : undefined;
+const older = here >= 0 ? siblings[here + 1] : undefined;
 ---
 <Base title={d.title} description={d.summary} image={image} ogType="article">
   <main class="wrap">
     <div class="narrow">
       <div class="page-head">
-        <p class="mono" style="margin:0 0 20px">{typeLabel[d.type]} / {formatDate(d.date)} / {readingTime(note.body)} 分钟</p>
+        <p class="mono kicker">{typeLabel[d.type]} / {formatDate(d.date)} / {readingTime(note.body)} 分钟</p>
         <h1>{d.title}</h1>
-        {d.author && <p class="bookrow" style="margin-top:18px">{d.author}{d.rating != null && ` · ${d.rating} / 5`}</p>}
-        {d.place && <p class="bookrow" style="margin-top:18px">{d.place}</p>}
+        {d.author && <p class="bookrow">{d.author}{d.rating != null && ` · ${d.rating} / 5`}</p>}
+        {d.place && <p class="bookrow">{d.place}</p>}
       </div>
-      <article class="prose"><Content /></article>
+      {toc.length >= 3 && (
+        <nav class="toc" aria-labelledby="toc-title">
+          <p id="toc-title" class="mono">本篇目录</p>
+          <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+        </nav>
+      )}
+      <article class:list={['prose', { dropcap }]}><Content /></article>
+      {tags.length > 0 && (
+        <p class="tags">{tags.map((tag) => <a href={tagUrl(tag)}>#{tag}</a>)}</p>
+      )}
+      {(older || newer) && (
+        <nav class="pager" aria-label="更多笔记">
+          {older ? <a href={noteUrl(older)} rel="prev"><span class="mono">上一篇</span><strong>{older.data.title}</strong></a> : <span></span>}
+          {newer ? <a class="next" href={noteUrl(newer)} rel="next"><span class="mono">下一篇</span><strong>{newer.data.title}</strong></a> : <span></span>}
+        </nav>
+      )}
       {links.length > 0 && (
         <section class="linked" aria-labelledby="linked">
           <h2 id="linked">相连的笔记</h2>
           <div class="card-grid">
-            {links.map((n) => <a href={noteUrl(n)}><span class="mono">{n.data.type}</span><strong>{n.data.title}</strong></a>)}
+            {links.map((n) => <a href={noteUrl(n)}><span class="mono">{typeLabel[n.data.type]}</span><strong>{n.data.title}</strong></a>)}
           </div>
         </section>
       )}

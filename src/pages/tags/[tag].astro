@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import EntryList from '../../components/EntryList.astro';
+import { publicNotes, tagSlug } from '../../lib/content';
+// 每个标签一页，只统计公开笔记。
+export async function getStaticPaths() {
+  const groups = new Map();
+  for (const note of await publicNotes()) {
+    for (const tag of note.data.tags) {
+      const slug = tagSlug(tag);
+      if (!slug) continue;
+      if (!groups.has(slug)) groups.set(slug, { label: tag, notes: [] });
+      groups.get(slug).notes.push(note);
+    }
+  }
+  return [...groups].map(([tag, { label, notes }]) => ({ params: { tag }, props: { label, notes } }));
+}
+const { label, notes } = Astro.props;
+const total = `共 ${notes.length} 篇`;
+---
+<Base title={`#${label}`} description={`标签为 ${label} 的笔记。`}>
+  <main class="wrap">
+    <div class="page-head"><p class="mono kicker">标签</p><h1><em>#{label}</em></h1><p class="lede">{total} · <a href="/archive/">查看全部</a></p></div>
+    <EntryList notes={notes} />
+  </main>
+</Base>
