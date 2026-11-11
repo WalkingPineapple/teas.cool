@@ -11,7 +11,7 @@ const notes = await publicNotes();
 const books = (await ofType('reading')).slice(0, 7);
 const trip = (await ofType('travel'))[0];
 const tripDate = trip && trip.data.date.toLocaleDateString('zh-CN', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-const intro = '叫我 Pineapple 就好，叫别的也行——白天靠代码吃饭，剩下的时间好奇心说了算。';
+const intro = '叫我 Pineapple 就好，叫别的也行——白天当牛做马，剩下的时间好奇心说了算。';
 ---
 <Base hideHeader={true}>
   <div class="hero" id="hero">
