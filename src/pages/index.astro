@@ -11,7 +11,7 @@ const notes = await publicNotes();
 const books = (await ofType('reading')).slice(0, 7);
 const trip = (await ofType('travel'))[0];
 const tripDate = trip && trip.data.date.toLocaleDateString('zh-CN', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-const intro = '你好，我是 Pineapple。我在计算机行业工作，但真正驱动我的是「东西到底是怎么运作的」这份好奇。这里是我的互联网角落：笔记、读书、旅行故事，以及每周抓住我注意力的东西。';
+const intro = '叫我 Pineapple 就好，叫别的也行——白天靠代码吃饭，剩下的时间好奇心说了算。';
 ---
 <Base hideHeader={true}>
   <div class="hero" id="hero">
