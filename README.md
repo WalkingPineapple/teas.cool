@@ -44,6 +44,8 @@ git commit -m "Update notes"
 git push
 ```
 
+One command instead: `npm run deploy -- --vault "C:\path\to\vault"` runs all of the above (validate → write → preview images → commit → push). Add `VAULT_PATH=C:\path\to\vault` to `.env` once and it needs no arguments. `--dry` previews without touching anything. On the author's Windows machine a global `blog` command does the same from any terminal.
+
 `--write` replaces the sample notes. Only the fields above are copied, and `%%comments%%` are removed. Publishing stops if a public note links to a Weekly report.
 
 Publishing also creates link preview images in `public/og`. Commit that folder with your notes.
