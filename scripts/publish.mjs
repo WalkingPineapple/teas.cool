@@ -8,8 +8,8 @@ import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { generateImages } from './og.mjs';
 
-const TYPES = new Set(['writing', 'reflection', 'reading', 'travel', 'weekly']);
-const FIELDS = ['title', 'type', 'date', 'summary', 'tags', 'aliases', 'author', 'rating', 'place'];
+const TYPES = new Set(['writing', 'reflection', 'story', 'reading', 'travel', 'weekly']);
+const FIELDS = ['title', 'type', 'date', 'summary', 'tags', 'aliases', 'author', 'rating', 'place', 'when'];
 const SKIP_DIRS = new Set(['.obsidian', '.trash', '.git', 'node_modules']);
 const norm = (s) => String(s).trim().replace(/\.md$/i, '').toLowerCase();
 

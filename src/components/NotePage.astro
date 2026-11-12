@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { backlinks, formatDate, noteUrl, ofType, readingTime, tagSlug, tagUrl, typeLabel } from '../lib/content';
+import { backlinks, formatDate, noteUrl, ofType, readingTime, stories, tagSlug, tagUrl, typeLabel } from '../lib/content';
 const { note } = Astro.props;
 const { Content, headings } = await render(note);
 const links = await backlinks(note);
@@ -13,25 +13,33 @@ const image = hasImage ? `/og/${encodeURIComponent(note.id)}.png` : undefined;
 
 // 目录只配长文：三个以上的二级标题才值得放。
 const toc = headings.filter((h) => h.depth === 2);
-// 首字下沉适合长随笔，两三行的随想就不必了。
-const dropcap = d.type === 'writing' && (note.body ?? '').length > 600;
+// 首字下沉适合长文（长随笔、长故事），两三行的随想就不必了。
+const dropcap = (d.type === 'writing' || d.type === 'story') && (note.body ?? '').length > 600;
 const tags = d.tags.filter((tag) => tagSlug(tag));
 
-// 同栏目的更新/更早笔记。列表按最新在前排序。
+// 故事按发生时间落款，其他按写作时间落款。
+const isStory = d.type === 'story';
+const stamp = isStory && d.when ? d.when : formatDate(d.date);
+
+// 同栏目的相邻笔记。故事按发生先后从早到晚；其他栏目按写作时间最新在前。
 const section = d.type === 'writing' || d.type === 'reflection' ? ['writing', 'reflection'] : [d.type];
-const siblings = await ofType(...section);
+const siblings = isStory ? await stories() : await ofType(...section);
 const here = siblings.findIndex((n) => n.id === note.id);
-const newer = here > 0 ? siblings[here - 1] : undefined;
-const older = here >= 0 ? siblings[here + 1] : undefined;
+const up = here > 0 ? siblings[here - 1] : undefined;
+const down = here >= 0 ? siblings[here + 1] : undefined;
+const before = isStory ? up : down;
+const after = isStory ? down : up;
+const [beforeLabel, afterLabel] = isStory ? ['更早', '更晚'] : ['上一篇', '下一篇'];
 ---
 <Base title={d.title} description={d.summary} image={image} ogType="article">
   <main class="wrap">
     <div class="narrow">
       <div class="page-head">
-        <p class="mono kicker">{typeLabel[d.type]} / {formatDate(d.date)} / {readingTime(note.body)} 分钟</p>
+        <p class="mono kicker">{typeLabel[d.type]} / {stamp} / {readingTime(note.body)} 分钟</p>
         <h1>{d.title}</h1>
         {d.author && <p class="bookrow">{d.author}{d.rating != null && ` · ${d.rating} / 5`}</p>}
         {d.place && <p class="bookrow">{d.place}</p>}
+        {isStory && d.when && <p class="bookrow">写于 {formatDate(d.date)}</p>}
       </div>
       {toc.length >= 3 && (
         <nav class="toc" aria-labelledby="toc-title">
@@ -43,10 +51,10 @@ const older = here >= 0 ? siblings[here + 1] : undefined;
       {tags.length > 0 && (
         <p class="tags">{tags.map((tag) => <a href={tagUrl(tag)}>#{tag}</a>)}</p>
       )}
-      {(older || newer) && (
+      {(before || after) && (
         <nav class="pager" aria-label="更多笔记">
-          {older ? <a href={noteUrl(older)} rel="prev"><span class="mono">上一篇</span><strong>{older.data.title}</strong></a> : <span></span>}
-          {newer ? <a class="next" href={noteUrl(newer)} rel="next"><span class="mono">下一篇</span><strong>{newer.data.title}</strong></a> : <span></span>}
+          {before ? <a href={noteUrl(before)} rel="prev"><span class="mono">{beforeLabel}</span><strong>{before.data.title}</strong></a> : <span></span>}
+          {after ? <a class="next" href={noteUrl(after)} rel="next"><span class="mono">{afterLabel}</span><strong>{after.data.title}</strong></a> : <span></span>}
         </nav>
       )}
       {links.length > 0 && (

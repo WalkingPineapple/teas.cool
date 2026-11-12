@@ -10,7 +10,7 @@ const notes = defineCollection({
   }),
   schema: z.object({
     title: z.string(),
-    type: z.enum(['writing', 'reflection', 'reading', 'travel', 'weekly']),
+    type: z.enum(['writing', 'reflection', 'story', 'reading', 'travel', 'weekly']),
     date: z.coerce.date(),
     summary: z.string().optional(),
     tags: z.array(z.string()).default([]),
@@ -19,6 +19,11 @@ const notes = defineCollection({
     author: z.string().optional(),
     rating: z.number().min(0).max(5).optional(),
     place: z.string().optional(),
+    // Stories: when it happened, e.g. 2014, "Summer 2019" or "2014-2016". Shown as written; the first year in it sets the order.
+    when: z.preprocess(
+      (v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v == null ? undefined : String(v)),
+      z.string().optional(),
+    ),
   }),
 });
 

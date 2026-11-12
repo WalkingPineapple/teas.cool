@@ -1,12 +1,9 @@
 import { getCollection } from 'astro:content';
-import { linkedNames, norm } from './notes-index.mjs';
+import { linkedNames, norm, urlFor, whenKey } from './notes-index.mjs';
 
 const newest = (a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf();
 
-export const noteUrl = (n: any) => {
-  const section = n.data.type === 'reflection' ? 'writing' : n.data.type;
-  return `/${section}/${n.id}/`;
-};
+export const noteUrl = (n: any) => urlFor(n.data.type, n.id);
 
 export async function publicNotes() {
   return (await getCollection('notes', ({ data }) => data.type !== 'weekly')).sort(newest);
@@ -19,8 +16,14 @@ export async function weeklyNotes() {
 export const ofType = async (...types: string[]) =>
   (await publicNotes()).filter((n) => types.includes(n.data.type));
 
+/** 故事按发生先后排序，最早在前；同期的按写作时间先后。 */
+export async function stories() {
+  const key = (n: any) => whenKey(n.data.when, n.data.date);
+  return (await ofType('story')).sort((a, b) => key(a) - key(b) || a.data.date.valueOf() - b.data.date.valueOf());
+}
+
 export const typeLabel: Record<string, string> = {
-  writing: '写作', reflection: '随想', reading: '读书', travel: '旅行', weekly: '周报',
+  writing: '写作', reflection: '随想', story: '故事', reading: '读书', travel: '旅行', weekly: '周报',
 };
 
 export const formatDate = (d: Date) =>

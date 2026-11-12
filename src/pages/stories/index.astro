@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import { noteUrl, stories } from '../../lib/content';
+// 从早到晚：这一页按事情发生的顺序读成一段人生，不管每篇是什么时候写的。
+const items = await stories();
+---
+<Base title="故事" description="发生过的事，按发生的顺序排列。">
+  <main class="wrap">
+    <div class="page-head"><h1>故事</h1><p class="lede">趁还没忘掉，把发生过的事写下来。</p></div>
+    <p class="epigraph">我曾站上高峰，也曾跌入谷底，两者都教会我许多。</p>
+    {items.length === 0
+      ? <p class="lede">还没有故事落笔。第一个故事已经在路上了。</p>
+      : (
+        <ol class="timeline">
+          {items.map((s) => (
+            <li>
+              <a class="moment" href={noteUrl(s)}>
+                <span class="mono when">{s.data.when ?? s.data.date.getUTCFullYear()}</span>
+                <strong>{s.data.title}</strong>
+                {s.data.summary && <p>{s.data.summary}</p>}
+              </a>
+            </li>
+          ))}
+        </ol>
+      )}
+  </main>
+</Base>

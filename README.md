@@ -28,13 +28,13 @@ Add these fields to an Obsidian note:
 ---
 publish: true
 title: My note
-type: writing   # writing, reflection, reading, travel, or weekly
+type: writing   # writing, reflection, story, reading, travel, or weekly
 date: 2026-11-04
 summary: Optional one-liner
 ---
 ```
 
-Other optional fields: `tags`, `aliases`, `slug`. Reading notes also need `author`, and can have `rating`. Travel notes can have `place`.
+Other optional fields: `tags`, `aliases`, `slug`. Reading notes also need `author`, and can have `rating`. Travel notes can have `place`. Stories can have `when`.
 
 ```powershell
 npm run notes -- --vault "C:\path\to\vault"           # preview
@@ -47,6 +47,20 @@ git push
 `--write` replaces the sample notes. Only the fields above are copied, and `%%comments%%` are removed. Publishing stops if a public note links to a Weekly report.
 
 Publishing also creates link preview images in `public/og`. Commit that folder with your notes.
+
+## Stories
+
+`type: story` is for things that happened to you. The Stories page is a timeline in the order things happened, not the order you wrote them:
+
+```yaml
+type: story
+date: 2026-11-11     # when you wrote it
+when: Summer 2014    # when it happened
+```
+
+`when` is shown exactly as you write it, so `2014`, `Summer 2014`, `2014-06` and `2014-2016` all work. The first year in it (and the month, if you give one as `2014-06`) decides the order. A story without `when` is placed by its `date`.
+
+The quote at the top of the page is in `src/pages/stories/index.astro`.
 
 ## Margin notes
 

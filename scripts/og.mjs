@@ -55,7 +55,7 @@ export function svgFor({ title, label }) {
 </svg>`;
 }
 
-const LABELS = { writing: '写作', reflection: '随想', reading: '读书', travel: '旅行' };
+const LABELS = { writing: '写作', reflection: '随想', story: '故事', reading: '读书', travel: '旅行' };
 
 export async function generateImages(notes, dir) {
   let sharp;

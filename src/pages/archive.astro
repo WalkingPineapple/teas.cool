@@ -10,7 +10,7 @@ const total = `共 ${notes.length} 篇`;
 ---
 <Base title="归档" description="站点上的全部笔记，最新在前。">
   <main class="wrap">
-    <div class="page-head"><h1>全部笔记，<em>最新在前</em></h1><p class="lede">{total}，涵盖写作、读书与旅行。</p></div>
+    <div class="page-head"><h1>全部笔记，<em>最新在前</em></h1><p class="lede">{total}，涵盖写作、故事、读书与旅行。</p></div>
     {years.map((year) => (
       <section class="year" aria-labelledby={`year-${year}`}>
         <h2 id={`year-${year}`} class="section-title">{year}</h2>

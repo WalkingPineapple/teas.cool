@@ -4,7 +4,7 @@
   --bright: #F2CF6B; --rind: #21372F; --on-bright: #21372F;
   --card: #FFFDF7; --sand: #F3DFA2; --callout-line: #D8CDA8; --spine: #21372F; --crown: #21372F;
   /* Note colours on the spiral, and the book spines. */
-  --travel: #F3DFA2;
+  --travel: #F3DFA2; --story: #A8552F;
   --spine-a: #E7D9A8; --spine-b: #7A5209; --spine-b-ink: #FFF7E0; --spine-c: #3F6456; --spine-d: #F3DFA2;
   color-scheme: light;
 
@@ -33,7 +33,7 @@ html[data-theme='dark'] {
   --paper: #141C19; --ink: #E9E6D8; --muted: #A6B0A6; --line: #303B35; --tint: #1F2925;
   --honey: #D9B35A; --amber: #E3BE6E; --cream: #F7F2DF; --pale: #242A20;
   --rind: #1B2E27; --card: #1B2420; --sand: #6B5A2C; --callout-line: #4A4630; --spine: #2F5045; --crown: #8FC7A0;
-  --travel: #8FC7A0;
+  --travel: #8FC7A0; --story: #D98B6A;
   --spine-a: #CBBE8F; --spine-b: #8A6113; --spine-b-ink: #FFF7E0; --spine-c: #3F6456; --spine-d: #D9C98A;
   color-scheme: dark;
 }
@@ -169,11 +169,28 @@ details.callout-under > summary { font-family: var(--serif); font-size: var(--fs
 .entry > div { grid-column: span 2; min-width: 0; }
 @media (max-width: 720px) { .entry > div { grid-column: auto; } }
 .entry strong { display: block; font-size: var(--fs-title); line-height: 1.18; font-weight: 400; }
-.entry strong::after { content: '\2192'; display: inline-block; margin-left: 10px; color: var(--honey); opacity: 0; transform: translateX(-6px); transition: opacity .18s ease, transform .18s ease; }
-.entry:hover strong::after, .entry:focus-visible strong::after { opacity: 1; transform: none; }
+.entry strong::after, .moment strong::after { content: '\2192'; display: inline-block; margin-left: 10px; color: var(--honey); opacity: 0; transform: translateX(-6px); transition: opacity .18s ease, transform .18s ease; }
+.entry:hover strong::after, .entry:focus-visible strong::after, .moment:hover strong::after, .moment:focus-visible strong::after { opacity: 1; transform: none; }
 .entry p { margin: 8px 0 0; font-size: var(--fs-small); line-height: 1.5; color: var(--muted); }
 .year { padding-top: 40px; }
 .year:first-of-type { padding-top: 0; }
+
+/* 故事：按发生顺序读的人生。每个故事挂在一根线上，用一只眼睛标记。 */
+.epigraph { max-width: 720px; margin: 0 0 clamp(40px, 6vw, 72px); font-size: var(--fs-h2); line-height: 1.2; font-style: italic; color: var(--amber); }
+.timeline { list-style: none; margin: 0; padding: 0; }
+.moment { position: relative; display: block; margin-left: 170px; padding: 0 0 52px 40px; border-left: 1px solid var(--line); }
+.timeline li:last-child .moment { padding-bottom: 8px; }
+.moment::before { content: ''; position: absolute; left: -7px; top: 10px; width: 13px; height: 13px; transform: rotate(45deg); border-radius: 28%; background: var(--story); border: 1px solid var(--ink); transition: scale .15s ease; }
+.moment:hover::before { scale: 1.3; }
+.moment .when { position: absolute; right: calc(100% + 28px); top: 7px; width: 140px; text-align: right; color: var(--amber); }
+.moment strong { display: block; font-size: var(--fs-title); line-height: 1.18; font-weight: 400; }
+.moment p { max-width: 640px; margin: 8px 0 0; font-size: var(--fs-small); line-height: 1.5; color: var(--muted); }
+@media (max-width: 720px) {
+  .epigraph { font-size: var(--fs-title); }
+  .moment { margin-left: 7px; padding-left: 28px; }
+  .moment::before { top: 4px; }
+  .moment .when { position: static; display: block; width: auto; margin-bottom: 6px; text-align: left; }
+}
 
 /* Home: the one loud moment */
 .hero { position: relative; overflow: hidden; color: var(--cream); background-color: var(--rind);
@@ -203,7 +220,7 @@ details.callout-under > summary { font-family: var(--serif); font-size: var(--fs
 .flesh-big { padding-top: clamp(24px, 6vw, 72px); font-size: var(--fs-hero); line-height: .92; letter-spacing: 0; }
 .flesh-tags { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 40px 0 32px; font-family: var(--mono); font-size: var(--fs-ui); }
 @media (prefers-reduced-motion: reduce) {
-  .flesh, .hero.is-peeling .flesh, .flesh-echo, .flesh-inner, .btn, .postcard, .eye, .entry strong::after { transition: none; }
+  .flesh, .hero.is-peeling .flesh, .flesh-echo, .flesh-inner, .btn, .postcard, .eye, .entry strong::after, .moment strong::after { transition: none; }
 }
 
 .home-section { padding-top: clamp(64px, 9vw, 112px); }
@@ -221,6 +238,7 @@ details.callout-under > summary { font-family: var(--serif); font-size: var(--fs
 .eye.writing { background: var(--ink); }
 .eye.reading { background: var(--honey); }
 .eye.travel { background: var(--travel); }
+.eye.story { background: var(--story); }
 /* Small eyes still get a finger-sized target. */
 a.eye::after { content: ''; position: absolute; inset: min(0px, calc(50% - 14px)); }
 a.eye:hover, a.eye:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; scale: 1.12; z-index: 1; }
@@ -231,6 +249,7 @@ a.eye:hover, a.eye:focus-visible { outline: 2px solid var(--amber); outline-offs
 .legend .writing { background: var(--ink); }
 .legend .reading { background: var(--honey); }
 .legend .travel { background: var(--travel); }
+.legend .story { background: var(--story); }
 
 /* Shelf */
 .shelf { display: flex; align-items: flex-end; gap: 6px; overflow-x: auto; border-bottom: 8px solid var(--ink); }

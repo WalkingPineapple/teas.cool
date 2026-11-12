@@ -5,7 +5,7 @@ const { notes } = Astro.props;
 const SIZES = [21, 34, 55, 89, 144, 233, 377, 610, 987];
 const count = SIZES.find((size) => size >= notes.length * 1.5) ?? notes.length;
 const step = 44 / Math.sqrt(count);
-const groups = { writing: 'writing', reflection: 'writing', reading: 'reading', travel: 'travel' };
+const groups = { writing: 'writing', reflection: 'writing', story: 'story', reading: 'reading', travel: 'travel' };
 const eyes = Array.from({ length: count }, (_, i) => {
   const n = i + 1;
   const radius = step * Math.sqrt(n);

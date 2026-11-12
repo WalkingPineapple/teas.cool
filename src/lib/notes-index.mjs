@@ -6,8 +6,19 @@ export const norm = (s) => String(s).trim().replace(/\.md$/i, '').toLowerCase();
 
 export function urlFor(type, slug) {
   if (type === 'weekly') return `/weekly/#${slug}`;
-  const section = type === 'reflection' ? 'writing' : type;
+  const section = type === 'reflection' ? 'writing' : type === 'story' ? 'stories' : type;
   return `/${section}/${slug}/`;
+}
+
+/**
+ * A sortable number for when a story happened: the first year (and month, if given) found in `when`.
+ * "2014" , "Summer 2019", "2014-2016" and "2014-06" all work. Without a year, the written date is used.
+ */
+export function whenKey(when, fallback) {
+  const m = String(when ?? '').match(/(\d{4})(?:[-/.](\d{1,2})(?!\d))?/);
+  if (m) return Number(m[1]) * 12 + (m[2] ? Math.min(12, Math.max(1, Number(m[2]))) - 1 : 0);
+  const d = new Date(fallback);
+  return d.getUTCFullYear() * 12 + d.getUTCMonth();
 }
 
 /** Map every name a note can be linked by to that note. */

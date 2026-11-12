@@ -6,6 +6,7 @@ import path from 'node:path';
 import { webcrypto as crypto } from 'node:crypto';
 import { collect, slugify, stripComments, write } from './publish.mjs';
 import { encrypt, findLeaks, protect } from './encrypt-weekly.mjs';
+import { urlFor, whenKey } from '../src/lib/notes-index.mjs';
 
 const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'utr-'));
 const put = (dir, name, text) => {
@@ -126,4 +127,22 @@ test('long and CJK titles wrap inside the image', async () => {
   const { wrap } = await import('./og.mjs');
   assert.equal(wrap('word '.repeat(60)).length, 4);
   assert.ok(wrap('中文标题'.repeat(12)).every((l) => [...l].length <= 13));
+});
+
+test('stories are ordered by when they happened', () => {
+  const written = '2026-11-11';
+  const order = ['Summer 2019', 2009, '2014-06', '2014-2016', '2014-11-02', undefined, 'Age 12']
+    .map((when) => [when, whenKey(when, written)])
+    .sort((a, b) => a[1] - b[1])
+    .map(([when]) => when);
+  assert.deepEqual(order, [2009, '2014-2016', '2014-06', '2014-11-02', 'Summer 2019', undefined, 'Age 12']);
+  assert.equal(urlFor('story', 'my-story'), '/stories/my-story/');
+});
+
+test('a story keeps its "when" on the way to the site', () => {
+  const v = tmp();
+  put(v, 's.md', note('publish: true\ntitle: S\ntype: story\ndate: 2026-01-02\nwhen: Summer 2014'));
+  const { notes, errors } = collect(v);
+  assert.equal(errors.length, 0);
+  assert.equal(notes[0].front.when, 'Summer 2014');
 });
