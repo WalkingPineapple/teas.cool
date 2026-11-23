@@ -8,10 +8,10 @@
   --spine-a: #E7D9A8; --spine-b: #7A5209; --spine-b-ink: #FFF7E0; --spine-c: #3F6456; --spine-d: #F3DFA2;
   color-scheme: light;
 
-  /* 混排字体栈：拉丁走 Newsreader（真斜体），汉字落到思源宋体 400；界面无衬线用系统中文字体（省 webfont 体积） */
-  --serif: 'Newsreader Variable', 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'SimSun', Georgia, serif;
-  --sans: 'Instrument Sans Variable', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
-  --mono: 'JetBrains Mono', 'PingFang SC', 'Microsoft YaHei', ui-monospace, monospace;
+  /* 混排字体栈：拉丁走 Newsreader（真斜体），汉字落到霞鹜文楷（系统楷体兜底） */
+  --serif: 'Newsreader Variable', 'LXGW WenKai', 'KaiTi', 'STKaiti', Georgia, serif;
+  --sans: 'Instrument Sans Variable', 'LXGW WenKai', 'KaiTi', 'STKaiti', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'LXGW WenKai', ui-monospace, monospace;
 
   /* Type scale: seven fixed steps and three fluid display sizes. Use these, not one-off sizes. */
   --fs-meta: 14px;   /* mono labels, dates */
@@ -39,8 +39,10 @@ html[data-theme='dark'] {
 }
 html[data-theme='dark'] .astro-code, html[data-theme='dark'] .astro-code span { color: var(--shiki-dark) !important; }
 * { box-sizing: border-box; }
-/* 汉字没有真斜体：禁止浏览器合成倾斜（拉伸变形），强调一律用字重和颜色 */
+/* 汉字没有真斜体：禁止浏览器合成倾斜（拉伸变形），强调一律用字重和颜色。
+   text-autospace:normal = 中文与英文/数字之间自动留 ~1/8em 呼吸空隙（Chrome 默认是 no-autospace；不支持的浏览器整条忽略） */
 html { -webkit-text-size-adjust: 100%; font-synthesis: none; }
+body { text-autospace: normal; }
 body { margin: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: var(--paper); color: var(--ink); font-family: var(--serif); overflow-x: hidden; }
 main { flex: 1 0 auto; }
 a { color: inherit; text-decoration: none; }
