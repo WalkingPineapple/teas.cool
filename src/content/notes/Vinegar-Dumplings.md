@@ -1,11 +1,12 @@
 ---
+source: 醋与饺
 title: 醋与饺
+type: writing
 date: '2024-03-31'
 summary: 为了喝一口醋而包了一顿饺子
 tags:
   - 电子厂日记
 author: P1neapple
-type: writing
 ---
 > 将就将就，凑合凑合，又不是不能用 看似嗤之以鼻的词语却每天不断反复上演。
 

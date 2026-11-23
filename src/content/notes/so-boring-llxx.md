@@ -1,5 +1,7 @@
 ---
+source: LL学习的偷鸡记录
 title: LL学习的偷鸡记录
+type: writing
 date: '2023-03-31'
 summary: 某APP中设有某LL学习的版块，有许多的KPI需要完成，这谁顶得住啊，不得找个方法偷鸡
 tags:
@@ -7,7 +9,6 @@ tags:
   - 花里胡哨
   - MITM
 author: P1neapple
-type: writing
 ---
 **只提供思路，本文章不具有任何指导意义,相关信息已经脱敏**
 
