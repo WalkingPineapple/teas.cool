@@ -69,7 +69,8 @@ export function collect(vault) {
     slugs.set(slug, rel);
 
     const front = { source };
-    for (const key of FIELDS) if (data[key] !== undefined) front[key] = data[key];
+    // 标题和摘要可能是纯数字（YAML 会解析成 number），统一转回字符串
+    for (const key of FIELDS) if (data[key] !== undefined) front[key] = key === 'title' || key === 'summary' ? String(data[key]) : data[key];
     notes.push({ rel, slug, front, body: stripComments(content).trim() + '\n' });
   }
 
